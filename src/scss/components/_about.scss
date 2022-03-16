@@ -1,0 +1,39 @@
+.about {
+  width: 720px;
+
+  margin-bottom: 87px;
+
+  padding-left: 72px;
+  padding-right: 64px;
+  &__title {
+    font-weight: 800;
+    font-size: 72px;
+    line-height: 52px;
+    margin-top: 55px;
+    margin-bottom: 15px;
+    color: #202020;
+  }
+  &__subtitle {
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 52px;
+    color: #aaaaaa;
+  }
+  &__img {
+    border-radius: 10px;
+    margin-bottom: 24px;
+  }
+  &__content-title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 52px;
+
+    color: #202020;
+  }
+  &__text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    color: #000000;
+  }
+}

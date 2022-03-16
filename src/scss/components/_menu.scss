@@ -1,0 +1,48 @@
+.menu {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  order: 2;
+  width: 100px;
+  height: 100vh;
+  color: #fff;
+  background-color: $main-color;
+  padding-bottom: 47px;
+
+  &__btn {
+    display: block;
+    width: 110px;
+    position: relative;
+    color: #fff;
+    background-color: $main-color;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 24px;
+    letter-spacing: 0.12em;
+    transform: rotate(270deg);
+    padding-left: 35px;
+
+    border: none;
+    cursor: pointer;
+
+    &::before {
+      position: absolute;
+      content: '';
+      top: 12px;
+      left: 10px;
+      width: 20px;
+      height: 2px;
+
+      background-color: #fff;
+      box-shadow: 0 5px 0 0 #fff, 0 10px 0 0 #fff;
+      transform: rotate(90deg);
+    }
+  }
+
+  &__content {
+    display: none;
+  }
+}

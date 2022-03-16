@@ -35,18 +35,11 @@ img {
   height: auto;
 }
 
-/* .main {
-  flex: 1 0 auto;
-}
-.footer {
-  flex: 0 0 auto;
-}
-
-.container {
-  max-width: 1140px;
+.wrapper {
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 15px;
-} */
+}
 
 .visually-hidden:not(:focus):not(:active) {
   position: absolute;
@@ -62,12 +55,4 @@ img {
   clip-path: inset(100%);
   clip: rect(0 0 0 0);
   overflow: hidden;
-}
-
-.wrapper {
-  width: 100%;
-  max-width: 1150px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 30px;
 }
