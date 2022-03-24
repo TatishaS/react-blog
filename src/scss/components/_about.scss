@@ -1,8 +1,5 @@
 .about {
-  width: 720px;
-
-  margin-bottom: 87px;
-
+  padding-bottom: 87px;
   padding-left: 72px;
   padding-right: 64px;
   &__title {
@@ -29,11 +26,14 @@
     line-height: 52px;
 
     color: #202020;
+    margin: 0;
   }
   &__text {
     font-weight: 400;
     font-size: 16px;
     line-height: 28px;
     color: #000000;
+    margin: 0;
+    padding: 0;
   }
 }
