@@ -8,5 +8,5 @@ export const setLoaded = payload => ({
 export const fetchPosts = () => dispatch => {
   dispatch(setLoaded(false));
 
-  axios.get('http://localhost:5656/posts').then(data => console.log(data));
+  //axios.get('http://localhost:5656/posts').then(data => console.log(data));
 };
