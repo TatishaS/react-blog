@@ -6,7 +6,7 @@ export const Menu = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
-    <nav className="menu" onClick={e => setMenuOpen(!menuOpen)}>
+    <nav className="menu menu--close" onClick={e => setMenuOpen(!menuOpen)}>
       <div className="menu__content">
         <div className="menu__profile">
           <p className="menu__name">Вася Пупкин</p>
