@@ -36,10 +36,8 @@
       opacity: 0.3;
     }
   }
+
   &__search-box {
-    display: none;
-  }
-  &__search-box.header__search-box--active {
     display: block;
     position: absolute;
     top: 0;

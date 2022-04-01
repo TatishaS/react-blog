@@ -1,4 +1,5 @@
 import React from 'react';
+//import axios from 'axios';
 import { Link } from 'react-router-dom';
 import postImg from '../assets/img/post-1.jpg';
 
@@ -79,6 +80,27 @@ export const posts = [
 console.log(posts);
 
 export const PostsList = () => {
+  /*  const [posts, setPosts] = React.useState([false]);
+
+  const getPosts = async () => {
+    const res = await axios.get('http://localhost:5656/posts');
+    setPosts(res.data);
+    console.log(posts);
+  };
+
+  React.useEffect(() => {
+    getPosts();
+  }, []); */
+
+  const onRemove = id => {
+    console.log(id);
+    const updatedArr = posts.filter(obj => {
+      return obj._id !== id;
+    });
+    console.log(updatedArr);
+    return updatedArr;
+  };
+
   return (
     <aside className="posts">
       <ul className="posts__list">
@@ -93,6 +115,17 @@ export const PostsList = () => {
                 <span className="post__date">{obj.createdAt}</span>
                 <span className="post__views">{obj.views}</span>
               </div>
+              <div className="post__edit">
+                <Link to={`/post/${obj._id}/edit`} className="post__edit-btn">
+                  Edit
+                </Link>
+                <button
+                  className="post__remove-btn"
+                  onClick={event => onRemove(obj._id)}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
             <img
               className="post__img"
@@ -103,94 +136,6 @@ export const PostsList = () => {
             />
           </li>
         ))}
-        {/*         <li className="posts__list-item post">
-          <div className="post__content">
-            <Link to="/post/" className="post__title-link">
-              <h6 className="post__title">
-                JavaScript: Как с помощью Dadata определить город по IP?
-              </h6>
-            </Link>
-            <p className="post__text">
-              На работе потребовалось запилить задачу для автоматического
-              определения города при совершении заказа. Было решено сделать это
-              на фронте, ибо бек был занят.
-            </p>
-            <div className="post__footer">
-              <span className="post__date">12 августа 2019 в 08:06 </span>
-              <span className="post__views">301</span>
-            </div>
-          </div>
-          <img
-            className="post__img"
-            src={postImg}
-            alt="Post-1"
-            width="165"
-            height="165"
-          />
-        </li>
-        <li className="posts__list-item post">
-          <div className="post__content">
-            <Link to="/post/" className="post__title-link">
-              <h6 className="post__title">
-                JavaScript: Как с помощью Dadata определить город по IP?
-              </h6>
-            </Link>
-            <p className="post__text">
-              На работе потребовалось запилить задачу для автоматического
-              определения города при совершении заказа. Было решено сделать это
-              на фронте, ибо бек был занят.
-            </p>
-            <div className="post__footer">
-              <span className="post__date">12 августа 2019 в 08:06</span>
-              <span className="post__views">301</span>
-            </div>
-          </div>
-          <img className="post__img" src={''} alt="" width="" height="" />
-        </li>
-        <li className="posts__list-item post">
-          <div className="post__content">
-            <Link to="/post/" className="post__title-link">
-              <h6 className="post__title">
-                JavaScript: Как с помощью Dadata определить город по IP?
-              </h6>
-            </Link>
-            <p className="post__text">
-              На работе потребовалось запилить задачу для автоматического
-              определения города при совершении заказа. Было решено сделать это
-              на фронте, ибо бек был занят.
-            </p>
-            <div className="post__footer">
-              <span className="post__date">12 августа 2019 в 08:06 </span>
-              <span className="post__views">301</span>
-            </div>
-          </div>
-          <img
-            className="post__img"
-            src={postImg}
-            alt="Post-1"
-            width="165"
-            height="165"
-          />
-        </li>
-        <li className="posts__list-item post">
-          <div className="post__content">
-            <Link to="/post/" className="post__title-link">
-              <h6 className="post__title">
-                JavaScript: Как с помощью Dadata определить город по IP?
-              </h6>
-            </Link>
-            <p className="post__text">
-              На работе потребовалось запилить задачу для автоматического
-              определения города при совершении заказа. Было решено сделать это
-              на фронте, ибо бек был занят.
-            </p>
-            <div className="post__footer">
-              <span className="post__date">12 августа 2019 в 08:06 </span>
-              <span className="post__views">301</span>
-            </div>
-          </div>
-          <img className="post__img" src={''} alt="" width="" height="" />
-        </li> */}
       </ul>
     </aside>
   );

@@ -61,4 +61,21 @@
     border-radius: 15px;
     margin-left: 40px;
   }
+
+  &__edit-btn,
+  &__remove-btn {
+    font-size: 14px;
+    text-decoration: underline;
+    color: $grey-text;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+  &__edit-btn:hover,
+  &__remove-btn:hover,
+  &__edit-btn:focus,
+  &__remove-btn:focus {
+    color: $black;
+  }
 }

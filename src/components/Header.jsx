@@ -2,14 +2,19 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import logoSvg from '../assets/img/logo.svg';
+import { ReactComponent as SearchIcon } from '../assets/img/icon-search.svg';
+import { ReactComponent as LogoutIcon } from '../assets/img/icon-logout.svg';
+import { ReactComponent as ProfileIcon } from '../assets/img/icon-profile.svg';
 
 export const Header = () => {
+  const [showSearch, setShowSearch] = React.useState(false);
+  const [searchValue, setSearchValue] = React.useState('');
+  const [searchQuery, setSearchQuery] = React.useState('');
   const [isAuth, setIsAuth] = React.useState(true);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   /* Проверяем, авторизованы мы или нет */
-
   React.useEffect(() => {
     if (window.localStorage.getItem('token')) {
       setIsAuth(true);
@@ -27,38 +32,51 @@ export const Header = () => {
       navigate('/login');
     }
   };
+
+  const handleSearchQuery = event => {
+    if (event.key === 'Enter') {
+      console.log('enter press here! ');
+      const query = searchValue;
+      setSearchQuery(query);
+      console.log(searchQuery);
+    }
+    setSearchValue('');
+  };
+
   return (
     <header className="header">
       <div className="header__inner">
-        <img className="header__logo" src={logoSvg} alt="logo" />
+        <Link to="/">
+          <img className="header__logo" src={logoSvg} alt="logo" />
+        </Link>
 
-        <div className="header__search-box">
-          <input
-            type="text"
-            className="header__search-input"
-            aria-label="search"
-            placeholder="Поиск статьи по заголовку или тексту..."
-          />
-          <button className="header__search-close"></button>
-        </div>
+        {showSearch ? (
+          <div className="header__search-box">
+            <input
+              type="text"
+              className="header__search-input"
+              aria-label="search"
+              placeholder="Поиск статьи по заголовку или тексту..."
+              onChange={event => setSearchValue(event.target.value)}
+              onKeyPress={handleSearchQuery}
+            />
+            <button
+              className="header__search-close"
+              onClick={() => setShowSearch(false)}
+            ></button>
+          </div>
+        ) : null}
+
         <div className="header__icons">
           <button
             className="header__icon-link header__icon-link--search"
-            href="/"
+            onClick={() => setShowSearch(true)}
           >
-            <svg
+            <SearchIcon
               className="header__icon header__icon--search"
               width="18"
               height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17.7043 16.2848L14.3054 12.8958C15.402 11.4988 15.9971 9.77351 15.9948 7.99743C15.9948 6.41569 15.5258 4.86947 14.647 3.5543C13.7683 2.23913 12.5192 1.21408 11.0579 0.608771C9.59657 0.00346513 7.98855 -0.15491 6.43721 0.153672C4.88586 0.462254 3.46085 1.22393 2.34239 2.34239C1.22393 3.46085 0.462254 4.88586 0.153672 6.43721C-0.15491 7.98855 0.00346513 9.59657 0.608771 11.0579C1.21408 12.5192 2.23913 13.7683 3.5543 14.647C4.86947 15.5258 6.41569 15.9948 7.99743 15.9948C9.77351 15.9971 11.4988 15.402 12.8958 14.3054L16.2848 17.7043C16.3777 17.798 16.4883 17.8724 16.6101 17.9231C16.7319 17.9739 16.8626 18 16.9945 18C17.1265 18 17.2572 17.9739 17.379 17.9231C17.5008 17.8724 17.6114 17.798 17.7043 17.7043C17.798 17.6114 17.8724 17.5008 17.9231 17.379C17.9739 17.2572 18 17.1265 18 16.9945C18 16.8626 17.9739 16.7319 17.9231 16.6101C17.8724 16.4883 17.798 16.3777 17.7043 16.2848ZM1.99936 7.99743C1.99936 6.81112 2.35114 5.65146 3.01022 4.66508C3.66929 3.6787 4.60606 2.90991 5.70207 2.45593C6.79807 2.00196 8.00408 1.88317 9.16759 2.11461C10.3311 2.34605 11.3999 2.91731 12.2387 3.75615C13.0775 4.595 13.6488 5.66375 13.8802 6.82726C14.1117 7.99077 13.9929 9.19678 13.5389 10.2928C13.0849 11.3888 12.3162 12.3256 11.3298 12.9846C10.3434 13.6437 9.18373 13.9955 7.99743 13.9955C6.40664 13.9955 4.88101 13.3636 3.75615 12.2387C2.6313 11.1138 1.99936 9.58821 1.99936 7.99743Z"
-                fill="#DEDEDE"
-              />
-            </svg>
+            />
           </button>
 
           {isAuth ? (
@@ -67,21 +85,11 @@ export const Header = () => {
               className="header__icon-link"
               onClick={handleClickLogout}
             >
-              <svg
+              <LogoutIcon
+                className="header__icon header__icon--logout"
                 width="23"
                 height="20"
-                viewBox="0 0 23 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.25 14.5V15.625C12.25 16.5201 11.8944 17.3786 11.2615 18.0115C10.6286 18.6444 9.77011 19 8.875 19H4.375C3.47989 19 2.62145 18.6444 1.98851 18.0115C1.35558 17.3786 1 16.5201 1 15.625V4.375C1 3.47989 1.35558 2.62145 1.98851 1.98851C2.62145 1.35558 3.47989 1 4.375 1H8.875C9.77011 1 10.6286 1.35558 11.2615 1.98851C11.8944 2.62145 12.25 3.47989 12.25 4.375V5.5M16.75 14.5L21.25 10L16.75 14.5ZM21.25 10L16.75 5.5L21.25 10ZM21.25 10H5.5H21.25Z"
-                  stroke="#DEDEDE"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              />
             </Link>
           ) : (
             <Link
@@ -89,19 +97,11 @@ export const Header = () => {
               className="header__icon-link"
               onClick={handleClickLogout}
             >
-              <svg
+              <ProfileIcon
                 className="header__icon header__icon--profile"
                 width="18"
                 height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.02295 0C8.09585 0 7.18957 0.277811 6.41871 0.798302C5.64786 1.31879 5.04705 2.05859 4.69226 2.92413C4.33748 3.78968 4.24465 4.7421 4.42552 5.66095C4.60639 6.57981 5.05283 7.42384 5.70839 8.0863C6.36395 8.74875 7.19918 9.1999 8.10846 9.38267C9.01775 9.56544 9.96025 9.47163 10.8168 9.11311C11.6733 8.75459 12.4054 8.14746 12.9205 7.36849C13.4355 6.58952 13.7104 5.6737 13.7104 4.73684C13.7104 3.48055 13.2166 2.27572 12.3375 1.38739C11.4584 0.499059 10.2662 0 9.02295 0ZM9.02295 7.57895C8.46669 7.57895 7.92292 7.41226 7.46041 7.09997C6.99789 6.78767 6.63741 6.3438 6.42454 5.82447C6.21167 5.30514 6.15597 4.73369 6.26449 4.18237C6.37301 3.63106 6.64088 3.12465 7.03421 2.72717C7.42755 2.32969 7.92869 2.05901 8.47426 1.94935C9.01983 1.83968 9.58533 1.89597 10.0992 2.11108C10.6132 2.32619 11.0524 2.69047 11.3615 3.15785C11.6705 3.62523 11.8354 4.17473 11.8354 4.73684C11.8354 5.49062 11.5391 6.21352 11.0117 6.74651C10.4842 7.27951 9.76887 7.57895 9.02295 7.57895ZM17.4604 18V17.0526C17.4604 15.2938 16.769 13.6071 15.5383 12.3634C14.3076 11.1197 12.6384 10.4211 10.8979 10.4211H7.14795C5.40747 10.4211 3.73827 11.1197 2.50756 12.3634C1.27685 13.6071 0.585449 15.2938 0.585449 17.0526V18H2.46045V17.0526C2.46045 15.7963 2.95431 14.5915 3.83339 13.7032C4.71246 12.8148 5.90475 12.3158 7.14795 12.3158H10.8979C12.1412 12.3158 13.3334 12.8148 14.2125 13.7032C15.0916 14.5915 15.5854 15.7963 15.5854 17.0526V18H17.4604Z"
-                  fill="#DEDEDE"
-                />
-              </svg>
+              />
             </Link>
           )}
         </div>

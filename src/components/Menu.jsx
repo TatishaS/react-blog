@@ -6,7 +6,7 @@ export const Menu = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
-    <nav className="menu menu--close" onClick={e => setMenuOpen(!menuOpen)}>
+    <nav className={menuOpen ? 'menu' : 'menu menu--close'}>
       <div className="menu__content">
         <div className="menu__profile">
           <p className="menu__name">Вася Пупкин</p>
@@ -30,8 +30,8 @@ export const Menu = () => {
           </li>
           <li className="menu__list-item">
             <Link
-              className={pathname === '/post-editor' ? 'active' : undefined}
-              to="/post-editor"
+              className={pathname === '/create-post' ? 'active' : undefined}
+              to="/create-post"
             >
               Создать запись
             </Link>
@@ -43,7 +43,7 @@ export const Menu = () => {
 
         <div className="menu__footer"></div>
       </div>
-      <button className="menu__btn">
+      <button className="menu__btn" onClick={() => setMenuOpen(!menuOpen)}>
         <div className="menu__btn-burger"></div>
         <span>Меню</span>
       </button>

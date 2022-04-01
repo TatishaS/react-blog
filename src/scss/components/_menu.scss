@@ -70,7 +70,6 @@
 
   &__footer {
     height: 78px;
-
     background: #0a2246;
   }
 
@@ -137,8 +136,8 @@
     }
 
     .menu__btn {
-      transform-origin: left center;
-      transform: translateX(15px) rotate(-90deg);
+      transform-origin: left bottom;
+      transform: rotate(-90deg) translateY(25px);
       transition: all 0.4s ease-in-out;
     }
 
@@ -154,9 +153,5 @@
     .menu__btn-burger::after {
       transform: translateY(5px);
     }
-
-    /*     &__content {
-      transform: translateX(500%);
-    } */
   }
 }

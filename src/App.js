@@ -8,7 +8,7 @@ import { fetchPosts } from './redux/actions/posts';
 import { Home } from './pages/Home';
 import { Profile } from './pages/Profile';
 import { FullPost } from './pages/FullPost';
-import { PostEditor } from './pages/PostEditor';
+import { CreatePost } from './pages/CreatePost';
 import { NotFound } from './pages/NotFound';
 import { Layout } from './components/Layout';
 
@@ -35,7 +35,8 @@ function App() {
 
             <Route path="profile" element={<Profile />} />
             <Route path="post/:id" element={<FullPost />} />
-            <Route path="post-editor" element={<PostEditor />} />
+            <Route path="post/:id/edit" element={<CreatePost />} />
+            <Route path="create-post" element={<CreatePost />} />
             <Route path="not-found" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/not-found" />} />
           </Route>

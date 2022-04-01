@@ -1,12 +1,46 @@
 import React from 'react';
+import axios from 'axios';
 
 export const Register = () => {
+  const [fields, setFields] = React.useState({
+    fullName: '',
+    email: '',
+    password: '',
+  });
+
+  const onSubmit = event => {
+    event.preventDefault();
+    console.log('Форма засабмичена');
+    const newUser = {
+      fullName: fields.fullName,
+      email: fields.email,
+      password: fields.password,
+    };
+
+    console.log(newUser);
+
+    axios.post('http://localhost:5656/users', newUser);
+
+    setFields({
+      fullName: '',
+      email: '',
+      password: '',
+    });
+  };
+
+  const handleChangeInput = event => {
+    setFields({
+      ...fields,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   return (
     <>
       <div className="modal-overlay modal-overlay--show"></div>
       <section className="signup-modal modal modal--show">
         <h2 className="modal__title">Регистрация</h2>
-        <form className="modal__form">
+        <form className="modal__form" onSubmit={onSubmit}>
           <p className="modal__form-field">
             <label className="modal__form-label" htmlFor="name">
               Имя и фамилия
@@ -15,7 +49,9 @@ export const Register = () => {
               className="modal__form-input"
               type="text"
               placeholder="Иван Иванов"
-              name="name"
+              name="fullName"
+              value={fields.fullName}
+              onChange={handleChangeInput}
               required
             />
           </p>
@@ -28,6 +64,8 @@ export const Register = () => {
               type="email"
               placeholder="hudson@gmail.com"
               name="email"
+              value={fields.email}
+              onChange={handleChangeInput}
               required
             />
           </p>
@@ -40,6 +78,8 @@ export const Register = () => {
               type="password"
               placeholder="*******"
               name="password"
+              value={fields.password}
+              onChange={handleChangeInput}
               required
             />
           </p>

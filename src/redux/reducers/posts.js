@@ -16,6 +16,14 @@ const posts = (state = initialState, action) => {
         ...state,
         isLoaded: action.payload,
       };
+    case 'ADD_POST':
+      return [
+        ...state,
+        {
+          id: state.length + 1,
+          ...action.payload,
+        },
+      ];
     default:
       return state;
   }
