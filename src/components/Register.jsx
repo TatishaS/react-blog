@@ -1,14 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
+  const navigate = useNavigate();
   const [fields, setFields] = React.useState({
     fullName: '',
     email: '',
     password: '',
   });
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault();
     console.log('Форма засабмичена');
     const newUser = {
@@ -19,7 +21,16 @@ export const Register = () => {
 
     console.log(newUser);
 
-    axios.post('http://localhost:5656/users', newUser);
+    try {
+      const resp = await axios.post(
+        'http://localhost:5656/auth/register',
+        newUser
+      );
+      console.log(resp);
+      resp.data && navigate('/login');
+    } catch (err) {
+      console.log(err);
+    }
 
     setFields({
       fullName: '',

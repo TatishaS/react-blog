@@ -61,7 +61,14 @@
   &__img-input {
     width: 442px;
   }
+
+  ::-webkit-file-upload-button,
+  ::file-selector-button {
+    display: none;
+  }
   &__img-btn {
+    display: inline-block;
+    width: 145px;
     position: relative;
     font-weight: 600;
     font-size: 16px;
@@ -88,10 +95,17 @@
       background-image: url('../../assets/img/icon-download.svg');
     }
   }
-  &__img-btn:hover,
-  &__img-btn:focus {
+  &__img-btn:hover {
     opacity: 0.5;
     transition: all 0.4s ease;
+  }
+
+  &__img-btn.disabled {
+    background-color: #d0d4da;
+    padding: 12px 19px 14px 19px;
+    &::before {
+      content: none;
+    }
   }
   &__fulltext {
     width: 100%;

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const Login = () => {
@@ -8,25 +9,37 @@ export const Login = () => {
     password: '',
   });
 
-  //https://mentor.archakov.im/api/mock/login?email=test@test.ru&password=123456
-  //http://localhost:5656/auth/login?email=${fields.email}&password=${fields.password}
-  //http://localhost:5656/auth/login?email=${fields.email}&password=${fields.password}
-
   const onSubmit = async event => {
     event.preventDefault();
-    const resp = await fetch(
-      `/auth/login?email=${fields.email}&password=${fields.password}`
-    );
+    const user = {
+      email: fields.email,
+      password: fields.password,
+    };
 
-    if (resp.ok) {
-      /* Сохраняем ответ от бэкэнда - token- в localStorage */
-      const { token } = await resp.json();
-      window.localStorage.setItem('token', token);
+    console.log(user);
 
-      /*После авторизации переходим в профиль */
-      navigate('/profile');
-      alert('Авторизация прошла успешно');
-    } else alert('Неверный логин или пароль');
+    try {
+      const resp = await axios.post('http://localhost:5656/auth/login', user);
+      console.log(resp);
+
+      if (resp.data) {
+        /*После авторизации сохраняем токен и переходим в профиль */
+        const { token } = resp.data;
+        localStorage.setItem('token', token);
+        console.log(token);
+
+        alert('Поздравляем! Вы авторизованы.');
+        navigate('/profile');
+      }
+    } catch (err) {
+      console.log(err);
+      alert('Неверный логин или пароль');
+    }
+
+    setFields({
+      email: '',
+      password: '',
+    });
   };
 
   const handleChangeInput = event => {

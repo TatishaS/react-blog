@@ -12,74 +12,73 @@ export const CreatePost = () => {
   const [inputs, setInputs] = React.useState({
     title: '',
     description: '',
-    image: '',
+    photoUrl: '',
     text: '',
   });
 
+  const [filePath, setFilePath] = React.useState('');
+
   const [uploading, setUploading] = React.useState(false);
+  const fileInputRef = React.useRef();
 
-  const { title, description, text } = inputs;
+  const { title, description, photoUrl, text } = inputs;
 
-  /*  const onAddPost = postObj => {
-    dispatch(addPost(postObj));
-  }; */
+  const handlePhotoChange = event => {
+    setFilePath(event.target.files[0].name);
+  };
 
   const uploadFile = async () => {
-    const fileElem = document.querySelector('#image');
-
-    const imgFile = fileElem.files[0];
+    const imgFile = fileInputRef.current.files[0];
     setUploading(true);
 
     const formData = new FormData();
     formData.append('file', imgFile);
-    console.log(formData);
 
-    await axios.post('http://localhost:5656', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const fileUrl = await axios
+      .post('http://localhost:5656/posts/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(({ data }) => {
+        return data.url;
+      });
+
+    console.log(fileUrl);
+    setFilePath(fileUrl);
+    setInputs({
+      ...inputs,
+      photoUrl: filePath,
     });
+
     setUploading(false);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
     if (title && description && text) {
-      const now = new Date();
-      const options = {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      };
-
       const newPost = {
         title,
         description,
+        photoUrl: filePath,
         text,
-        createdAt: now.toLocaleDateString('ru-RU', options),
       };
       console.log(newPost);
 
-      axios.post('http://localhost:5656/posts', newPost);
-      /*       fetch('http://localhost:5656/posts', {
-        method: 'POST',
+      const token = localStorage.getItem('token');
+      console.log(token);
+
+      await axios.post('http://localhost:5656/posts', newPost, {
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+          Authorization: token,
         },
-        body: JSON.stringify(newPost),
-      }); */
-      //onAddPost(newPost);
+      });
 
       setInputs({
         title: '',
         descr: '',
-        image: '',
+        photoUrl: '',
         text: '',
       });
     } else {
@@ -133,16 +132,21 @@ export const CreatePost = () => {
 
             <input
               className="editor__img-input"
-              name="image"
+              ref={fileInputRef}
+              name="photoUrl"
               id="image"
               type="file"
+              onChange={handlePhotoChange}
+              disabled={uploading}
             />
             <button
-              className="editor__img-btn"
+              className={
+                uploading ? 'editor__img-btn disabled' : 'editor__img-btn'
+              }
               onClick={uploadFile}
               disabled={uploading}
             >
-              Загрузить
+              {uploading ? 'Загрузка...' : 'Загрузить'}
             </button>
             {uploading && (
               <p>
