@@ -1,0 +1,28 @@
+.pagination {
+  margin: 39px auto;
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+  }
+  &__arrow {
+    display: inline-block;
+    width: 77px;
+    height: 50px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  &__arrow--disabled {
+    opacity: 0.3;
+  }
+  &__arrow--left {
+    background: #f9f9f9 url('../../assets/img/icon-arrow-left.svg') no-repeat
+      center;
+    margin-right: 9px;
+  }
+  &__arrow--right {
+    background: #f9f9f9 url('../../assets/img/icon-arrow-right.svg') no-repeat
+      center;
+  }
+}

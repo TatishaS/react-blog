@@ -1,7 +1,10 @@
 const initialState = {
   items: [],
   isLoaded: false,
+  postLoaded: false,
+  postData: {},
 };
+
 
 const posts = (state = initialState, action) => {
   switch (action.type) {
@@ -16,14 +19,39 @@ const posts = (state = initialState, action) => {
         ...state,
         isLoaded: action.payload,
       };
-    case 'ADD_POST':
-      return [
+    case 'SET_POST_LOADED':
+      return {
         ...state,
-        {
-          id: state.length + 1,
-          ...action.payload,
-        },
-      ];
+        postLoaded: action.payload,
+      };
+    case 'SET_POST_DATA':
+      return {
+        ...state,
+        postData: action.payload,
+      };
+    case 'ADD_POST': {
+      const updatedItems = [ action.payload, ...state.items.items];
+      return {
+        ...state,
+        items: {...state, items: updatedItems}
+    };
+    }
+      
+    case 'REMOVE_POST': {
+      console.log(state);
+
+      const updatedItems = state.items.items.filter(post => {
+        return post._id !== action.payload;
+      });
+
+      return {
+        ...state,
+        items: {...state, items: updatedItems}
+      }
+  
+    }
+  
+     
     default:
       return state;
   }

@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import logoSvg from '../assets/img/logo.svg';
 import { ReactComponent as SearchIcon } from '../assets/img/icon-search.svg';
+import { ReactComponent as WriteIcon } from '../assets/img/icon-write.svg';
 import { ReactComponent as LogoutIcon } from '../assets/img/icon-logout.svg';
 import { ReactComponent as ProfileIcon } from '../assets/img/icon-profile.svg';
 
@@ -10,7 +11,7 @@ export const Header = () => {
   const [showSearch, setShowSearch] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState('');
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [isAuth, setIsAuth] = React.useState(true);
+  const [isAuth, setIsAuth] = React.useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -28,6 +29,14 @@ export const Header = () => {
       window.localStorage.removeItem('token');
       navigate('/');
       setIsAuth(false);
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleClickWrite = () => {
+    if (isAuth) {
+      navigate('/create-post');
     } else {
       navigate('/login');
     }
@@ -80,17 +89,30 @@ export const Header = () => {
           </button>
 
           {isAuth ? (
-            <Link
-              to="/"
-              className="header__icon-link"
-              onClick={handleClickLogout}
-            >
-              <LogoutIcon
-                className="header__icon header__icon--logout"
-                width="23"
-                height="20"
-              />
-            </Link>
+            <div>
+              <Link
+                to="/create-post"
+                className="header__icon-link"
+                onClick={handleClickWrite}
+              >
+                <WriteIcon
+                  className="header__icon header__icon--write"
+                  width="19"
+                  height="19"
+                />
+              </Link>
+              <Link
+                to="/"
+                className="header__icon-link"
+                onClick={handleClickLogout}
+              >
+                <LogoutIcon
+                  className="header__icon header__icon--logout"
+                  width="23"
+                  height="20"
+                />
+              </Link>
+            </div>
           ) : (
             <Link
               to="/login"

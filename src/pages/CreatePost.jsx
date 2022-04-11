@@ -1,60 +1,66 @@
 import React from 'react';
 import axios from 'axios';
-//import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { PostsList } from '../components/PostsList';
 import { Editor } from '@tinymce/tinymce-react';
 
-/* import { addPost } from '../redux/actions/posts'; */
+import { addPost } from '../redux/actions/posts';
 
 export const CreatePost = () => {
-  //const dispatch = useDispatch;
+  const dispatch = useDispatch();
   const [inputs, setInputs] = React.useState({
     title: '',
     description: '',
     photoUrl: '',
     text: '',
   });
-
   const [filePath, setFilePath] = React.useState('');
-
   const [uploading, setUploading] = React.useState(false);
+
   const fileInputRef = React.useRef();
 
   const { title, description, photoUrl, text } = inputs;
 
   const handlePhotoChange = event => {
+    console.log(event.target.files[0]);
     setFilePath(event.target.files[0].name);
   };
 
   const uploadFile = async () => {
     const imgFile = fileInputRef.current.files[0];
+    console.log(imgFile);
     setUploading(true);
 
     const formData = new FormData();
     formData.append('file', imgFile);
+    console.log(formData);
 
-    const fileUrl = await axios
-      .post('http://localhost:5656/posts/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(({ data }) => {
-        return data.url;
+    if (imgFile) {
+      const fileUrl = await axios
+        .post('http://localhost:5656/posts/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(({ data }) => {
+          return data.url;
+        });
+
+      console.log(fileUrl);
+      setFilePath(fileUrl);
+      setInputs({
+        ...inputs,
+        photoUrl: filePath,
       });
 
-    console.log(fileUrl);
-    setFilePath(fileUrl);
-    setInputs({
-      ...inputs,
-      photoUrl: filePath,
-    });
-
-    setUploading(false);
+      setUploading(false);
+    } else {
+      alert('Загрузите файл');
+      setUploading(false);
+    }
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     if (title && description && text) {
@@ -64,27 +70,20 @@ export const CreatePost = () => {
         photoUrl: filePath,
         text,
       };
-      console.log(newPost);
-
-      const token = localStorage.getItem('token');
-      console.log(token);
-
-      await axios.post('http://localhost:5656/posts', newPost, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      
+      dispatch(addPost(newPost));
 
       setInputs({
         title: '',
-        descr: '',
-        photoUrl: '',
+        description: '',
         text: '',
+        photoUrl: '',
       });
     } else {
       alert('Заполните все поля');
     }
   };
+
   return (
     <>
       <section className="section editor">
@@ -196,7 +195,6 @@ export const CreatePost = () => {
           </div>
         </form>
       </section>
-      <PostsList />
     </>
   );
 };

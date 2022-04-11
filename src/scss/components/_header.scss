@@ -1,13 +1,13 @@
 .header {
   height: 67px;
   &__inner {
-    width: 620px;
+    //width: 620px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    outline: $outline;
+    border: $outline;
     margin-left: auto;
     padding: 21px 29px 21px 0;
   }
@@ -15,7 +15,8 @@
     margin-left: 29px;
   }
   &__icons {
-    display: block; //temporarly
+    display: flex;
+    align-items: center;
     margin-right: 29px;
   }
   &__icon-link:not(:last-child) {
@@ -51,7 +52,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 
     input {
       width: 100%;

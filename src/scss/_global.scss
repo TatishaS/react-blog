@@ -42,6 +42,14 @@ img {
   padding-right: 100px;
 }
 
+.container {
+  display: flex;
+  &__inner {
+    order: 2;
+    border-left: $outline;
+  }
+}
+
 .visually-hidden:not(:focus):not(:active) {
   position: absolute;
 

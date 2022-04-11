@@ -1,5 +1,5 @@
 import React from 'react';
-import { PostsList } from '../components/PostsList';
+
 import authorImg from '../assets/img/author.jpg';
 
 export const Home = () => {
@@ -27,7 +27,6 @@ export const Home = () => {
           malesuada non nisi.
         </p>
       </section>
-      <PostsList />
     </>
   );
 };
