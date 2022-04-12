@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { formatDate} from '../config/date';
 
 export const PostItem = ({ obj, onRemove }) => {
+  const [postActive, setPostActive] = React.useState(false);
   
   return (
-    <li className="posts__list-item post" key={obj._id}>
+    <li className={postActive ? "post post--active" : "post"} key={obj._id}>
       <div className="post__content">
-        <Link to={`/post/${obj._id}`} className="post__title-link">
+        <Link to={`/post/${obj._id}`} className="post__title-link" onClick={() => setPostActive(true)}>
           <h6 className="post__title">{obj.title}</h6>
         </Link>
         <p className="post__text">{obj.description.substring(0, 100)}...</p>

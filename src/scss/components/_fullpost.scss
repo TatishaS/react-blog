@@ -2,6 +2,13 @@
   margin-top: -67px;
   width: 720px;
 
+  &__loader {
+    height: 1024px;
+  }
+  &__loader-block {
+    margin: 140px auto 95px;
+  }
+
   &__header {
     position: relative;
     width: 100%;

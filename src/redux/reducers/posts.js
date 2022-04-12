@@ -12,12 +12,7 @@ const posts = (state = initialState, action) => {
       return {
         ...state,
         items: action.payload,
-        isLoaded: true,
-      };
-    case 'SET_LOADED':
-      return {
-        ...state,
-        isLoaded: action.payload,
+        isLoaded: true
       };
     case 'SET_POST_LOADED':
       return {
@@ -28,6 +23,8 @@ const posts = (state = initialState, action) => {
       return {
         ...state,
         postData: action.payload,
+        postLoaded: true
+
       };
     case 'ADD_POST': {
       const updatedItems = [ action.payload, ...state.items.items];

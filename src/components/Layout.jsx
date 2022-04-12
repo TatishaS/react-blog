@@ -5,6 +5,8 @@ import { Menu } from './Menu';
 import { PostsList } from './PostsList';
 
 export const Layout = () => {
+
+  
   return (
     <>
       <div className="wrapper">

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import parse from 'html-react-parser';
 
 import { fetchPosts, removePost } from '../redux/actions/posts';
 
@@ -8,18 +7,23 @@ import { Pagination } from '../components/Pagination';
 import { PostItem } from '../components/PostItem';
 
 export const PostsList = () => {
+
   const dispatch = useDispatch();
   const posts = useSelector(({ posts }) => posts.items.items);
   const isLoaded = useSelector(({ posts }) => posts.isLoaded);
+  
+
+  console.log(posts);
+  console.log(isLoaded);
 
   React.useEffect(() => {
-    dispatch(fetchPosts());
+      dispatch(fetchPosts());
   }, []);
 
   const handleClickRemove = id => {
     if (window.confirm('Вы хотите удалить пост?')) {
       dispatch(removePost(id));
-      console.log(posts);
+      
     }
     
   }; 
