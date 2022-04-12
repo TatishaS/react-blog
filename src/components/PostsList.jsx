@@ -1,21 +1,23 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { useParams } from 'react-router-dom';
 import { fetchPosts, removePost } from '../redux/actions/posts';
 
 import { Pagination } from '../components/Pagination';
 import { PostItem } from '../components/PostItem';
 
 export const PostsList = () => {
-
   const dispatch = useDispatch();
   const posts = useSelector(({ posts }) => posts.items.items);
   const isLoaded = useSelector(({ posts }) => posts.isLoaded);
+
+  let params = useParams();
+
+  //const post = posts.find(obj => Number(obj._id) === Number(params.id));
+  const postId = params.id;
+  console.log(postId);
   
-
-  console.log(posts);
-  console.log(isLoaded);
-
+  
   React.useEffect(() => {
       dispatch(fetchPosts());
   }, []);
@@ -23,12 +25,8 @@ export const PostsList = () => {
   const handleClickRemove = id => {
     if (window.confirm('Вы хотите удалить пост?')) {
       dispatch(removePost(id));
-      
-    }
-    
+    } 
   }; 
-
-
 
   return (
     <>

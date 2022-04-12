@@ -1,14 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { formatDate} from '../config/date';
 
-export const PostItem = ({ obj, onRemove }) => {
+export const PostItem = ({ obj, onRemove}) => {
   const [postActive, setPostActive] = React.useState(false);
+
+let params = useParams();
+
+  //const post = posts.find(obj => Number(obj._id) === Number(params.id));
+  //const postId = params.id;
+  //console.log(params.id);
+
+  const handlePostActive = id => {
+    if (Number(id) === Number(params.id)) {
+      setPostActive(true);
+      console.log(postActive);
+    } 
+  }
+
   
   return (
     <li className={postActive ? "post post--active" : "post"} key={obj._id}>
       <div className="post__content">
-        <Link to={`/post/${obj._id}`} className="post__title-link" onClick={() => setPostActive(true)}>
+        <Link to={`/post/${obj._id}`} className="post__title-link"  onClick={handlePostActive(obj._id)}>
           <h6 className="post__title">{obj.title}</h6>
         </Link>
         <p className="post__text">{obj.description.substring(0, 100)}...</p>

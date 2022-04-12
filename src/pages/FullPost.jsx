@@ -12,7 +12,6 @@ import { formatDate} from '../config/date';
 export const FullPost = () => {
   const  post = useSelector( ({posts}) => posts.postData);
   const  postLoaded = useSelector( ({posts}) => posts.postLoaded);
-  console.log(postLoaded);
   
   const dispatch = useDispatch();
   let params = useParams();
