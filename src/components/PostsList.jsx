@@ -12,8 +12,6 @@ export const PostsList = () => {
   const isLoaded = useSelector(({ posts }) => posts.isLoaded);
 
   let params = useParams();
-
-  //const post = posts.find(obj => Number(obj._id) === Number(params.id));
   const postId = params.id;
   console.log(postId);
   
@@ -34,7 +32,7 @@ export const PostsList = () => {
         <ul className="posts__list">
           {isLoaded &&
             posts.map(obj => (
-              <PostItem obj={obj} id={obj._id} key={obj._id} onRemove={handleClickRemove} />
+              <PostItem obj={obj} id={obj._id} key={obj._id} onRemove={handleClickRemove} isActive={obj._id === postId}/>
             ))}
         </ul>
         <Pagination />
