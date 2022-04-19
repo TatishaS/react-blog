@@ -13,6 +13,7 @@ export const FullPost = () => {
   const  post = useSelector( ({posts}) => posts.postData);
   const  postLoaded = useSelector( ({posts}) => posts.postLoaded);
   
+  
   const dispatch = useDispatch();
   let params = useParams();
   
@@ -20,7 +21,7 @@ export const FullPost = () => {
   //const post = posts.find(obj => Number(obj._id) === Number(params.id));
   const postId = params.id;
 
-
+/* Watch the post id in the browser */
   React.useEffect(() => {
     dispatch(fetchPost(postId));
   }, [postId]);

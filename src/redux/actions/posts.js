@@ -10,6 +10,31 @@ export const setPostData = item => ({
   payload: item,
 });
 
+export const saveCurrentId = id => ({
+  type: 'SAVE_CURRENT_ID',
+  payload: id
+});
+
+
+export const updatePost =(id, updatedItem) => async dispatch => {
+  const token = localStorage.getItem('token');
+  try {
+    const {data} = await axios.patch(`http://localhost:5656/posts/${id}`, updatedItem, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    dispatch({
+      type: 'UPDATE_POST',
+      payload: data
+    })
+  } catch (error) {
+    console.log(error);
+
+  }
+};
+
 export const setLoaded = payload => ({
   type: 'SET_LOADED',
   payload,
@@ -28,6 +53,7 @@ export const addPost = item => async dispatch => {
         Authorization: token,
       },
     });
+    console.log(data);
     dispatch({
       type: 'ADD_POST',
       payload: data

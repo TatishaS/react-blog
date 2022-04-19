@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { formatDate} from '../config/date';
 
-export const PostItem = ({ obj, onRemove, isActive}) => {
-
+export const PostItem = ({ obj, onRemove, isActive, onEdit}) => {
+  
   
   return (
     <li className={isActive ? "post post--active" : "post"} key={obj._id}>
@@ -17,7 +17,7 @@ export const PostItem = ({ obj, onRemove, isActive}) => {
           <span className="post__views">{obj.views}</span>
         </div>
         <div className="post__edit">
-          <Link to={`/post/${obj._id}/edit`} className="post__edit-btn">
+          <Link to={`/post/${obj._id}/edit`} className="post__edit-btn" onClick={() => onEdit(obj._id)}>
             Edit
           </Link>
           <button

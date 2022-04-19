@@ -3,6 +3,8 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: $outline;
+  border-left: 4px solid transparent;
+
   padding: 26px 30px;
 
   &.post--active {

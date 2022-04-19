@@ -24,7 +24,7 @@ function App() {
             <Route path="register" element={<Register />} />
 
             <Route path="post/:id" element={<FullPost />} />
-            <Route path="post/:id/edit" element={<CreatePost />} />
+          <Route path="post/:id/edit" element={<CreatePost />} />
             <Route path="create-post" element={<CreatePost />} />
             <Route path="not-found" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/not-found" />} />

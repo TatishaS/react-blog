@@ -3,6 +3,7 @@ const initialState = {
   isLoaded: false,
   postLoaded: false,
   postData: {},
+  currentId: '',
 };
 
 
@@ -26,6 +27,23 @@ const posts = (state = initialState, action) => {
         postLoaded: true
 
       };
+      case 'SAVE_CURRENT_ID':
+        return {
+          ...state, 
+          currentId: action.payload
+        };
+      case 'UPDATE_POST': {
+        const updatedPosts = state.items.items.map(post => post._id === action.payload._id ? action.payload : post);
+        console.log(action.payload);
+
+        return {
+          ...state,
+          items: {...state, items: updatedPosts},
+
+        };
+
+      }
+        
     case 'ADD_POST': {
       const updatedItems = [ action.payload, ...state.items.items];
       return {
@@ -35,8 +53,6 @@ const posts = (state = initialState, action) => {
     }
       
     case 'REMOVE_POST': {
-      console.log(state);
-
       const updatedItems = state.items.items.filter(post => {
         return post._id !== action.payload;
       });

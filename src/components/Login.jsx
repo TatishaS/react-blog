@@ -26,8 +26,7 @@ export const Login = () => {
         /*После авторизации сохраняем токен и переходим в профиль */
         const { token } = resp.data;
         localStorage.setItem('token', token);
-        console.log(token);
-
+       
         alert('Поздравляем! Вы авторизованы.');
         navigate('/profile');
       }

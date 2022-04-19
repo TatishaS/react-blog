@@ -1,56 +1,99 @@
 import React from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 
-import { addPost } from '../redux/actions/posts';
+import { addPost, saveCurrentId, updatePost, setPostData} from '../redux/actions/posts';
 
 export const CreatePost = () => {
   const dispatch = useDispatch();
+  const  postData = useSelector( ({posts}) => posts.postData);
+  const  currentId = useSelector( ({posts}) => posts.currentId);
+  
   const [inputs, setInputs] = React.useState({
     title: '',
     description: '',
     photoUrl: '',
     text: '',
   });
-  const [filePath, setFilePath] = React.useState('');
+  
   const [uploading, setUploading] = React.useState(false);
+  const [editMode, setEditMode] = React.useState(false);
 
   const fileInputRef = React.useRef();
+  const editorRef = React.useRef(null);
+
+  const params = useParams();
+ const postId = params.id;
+
 
   const { title, description, photoUrl, text } = inputs;
 
+  /* Check if we already have post data and post id to edit the post */
+ React.useEffect(() => {
+  if (postData) {
+    setEditMode(true);
+    setInputs(postData);
+   } else {
+    clearForm();
+    } 
+    
+  }, [postData]);
+
+/* Clear inputs and all data in the form */
+  const clearForm = () => {
+   
+   /* Clear refs */
+    if (fileInputRef.current.files[0]) {
+      fileInputRef.current.value = '';
+    } 
+    if (editorRef.current) {
+      editorRef.current.setContent('');
+    }
+    /* Clear inputs */
+    setInputs({
+      title: '',
+      description: '',
+      photoUrl: '',
+      text: ''
+    });
+    dispatch(saveCurrentId(''));
+    dispatch(setPostData({}));
+    setEditMode(false);
+}
+
+
+
+  
   const handlePhotoChange = event => {
-    console.log(event.target.files[0]);
-    setFilePath(event.target.files[0].name);
+    setInputs({
+      ...inputs,
+      photoUrl: event.target.files[0].name,
+    });
   };
 
   const uploadFile = async () => {
     const imgFile = fileInputRef.current.files[0];
-    console.log(imgFile);
+
     setUploading(true);
 
     const formData = new FormData();
     formData.append('file', imgFile);
-    console.log(formData);
-
+    
     if (imgFile) {
-      const fileUrl = await axios
+      const {data} = await axios
         .post('http://localhost:5656/posts/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        })
-        .then(({ data }) => {
-          return data.url;
         });
 
-      console.log(fileUrl);
-      setFilePath(fileUrl);
-      setInputs({
+      const fileUrl = data.url;
+    
+     setInputs({
         ...inputs,
-        photoUrl: filePath,
+        photoUrl: fileUrl,
       });
 
       setUploading(false);
@@ -60,29 +103,24 @@ export const CreatePost = () => {
     }
   };
 
+  /* Handling 2 submit scenarios */ 
   const handleSubmit = event => {
     event.preventDefault();
-
+    /* Creating object with post data */
     if (title && description && text) {
-      const newPost = {
+      const post = {
         title,
         description,
-        photoUrl: filePath,
+        photoUrl,
         text,
-      };
-      
-      dispatch(addPost(newPost));
-
-      setInputs({
-        title: '',
-        description: '',
-        text: '',
-        photoUrl: '',
-      });
-    } else {
+      }
+    /* 2 scenarios: we update existing post OR add new post */
+      editMode ? dispatch(updatePost(currentId, post)) : dispatch(addPost(post));
+      clearForm();  
+    }  else {
       alert('Заполните все поля');
-    }
-  };
+    }; 
+};
 
   return (
     <>
@@ -137,6 +175,8 @@ export const CreatePost = () => {
               type="file"
               onChange={handlePhotoChange}
               disabled={uploading}
+              accept=".jpg, .jpeg, .png"
+              required
             />
             <button
               className={
@@ -160,6 +200,8 @@ export const CreatePost = () => {
             </label>
             <Editor
               className="editor__fulltext"
+              onInit={(evt, editor) => editorRef.current = editor}
+              initialValue={postData ? postData.text : null}
               textareaName="content"
               init={{
                 height: 546,
@@ -174,6 +216,7 @@ export const CreatePost = () => {
                 content_style:
                   'body { font-family:Inter,Arial,sans-serif; font-size:16px }',
               }}
+              
               onEditorChange={newText => {
                 setInputs({ ...inputs, text: newText });
               }}
@@ -181,18 +224,21 @@ export const CreatePost = () => {
               required
             />
           </div>
+{editMode ? (
+  <div className="editor__edit-btns">
+<button className="editor__btn editor__btn--delete" type="submit">
+  Удалить
+</button>
+<button className="editor__btn editor__btn--save" type="submit">
+  Сохранить
+</button>
+</div>
+)
+: <button className="editor__btn editor__btn--submit" type="submit">
+Опубликовать
+</button>}
+          
 
-          <button className="editor__btn editor__btn--submit" type="submit">
-            Опубликовать
-          </button>
-          <div className="editor__edit-btns">
-            <button className="editor__btn editor__btn--delete" type="submit">
-              Удалить
-            </button>
-            <button className="editor__btn editor__btn--save" type="submit">
-              Сохранить
-            </button>
-          </div>
         </form>
       </section>
     </>

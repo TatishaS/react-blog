@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchPosts, removePost } from '../redux/actions/posts';
+import { fetchPosts, removePost, fetchPost, saveCurrentId} from '../redux/actions/posts';
 
 import { Pagination } from '../components/Pagination';
 import { PostItem } from '../components/PostItem';
@@ -10,15 +10,18 @@ export const PostsList = () => {
   const dispatch = useDispatch();
   const posts = useSelector(({ posts }) => posts.items.items);
   const isLoaded = useSelector(({ posts }) => posts.isLoaded);
+  const currentId = useSelector(({ posts }) => posts.currentId);
 
   let params = useParams();
   const postId = params.id;
-  console.log(postId);
   
   
   React.useEffect(() => {
       dispatch(fetchPosts());
-  }, []);
+  }, [dispatch]);
+
+  console.log(posts);
+  
 
   const handleClickRemove = id => {
     if (window.confirm('Вы хотите удалить пост?')) {
@@ -26,13 +29,21 @@ export const PostsList = () => {
     } 
   }; 
 
+  const handleClickEdit = id => {
+    if(window.confirm('Вы хотите внести изменения в пост?')) {
+      dispatch(saveCurrentId(id));
+      dispatch(fetchPost(id));
+    }
+  }
+ 
+
   return (
     <>
       <article className="posts">
         <ul className="posts__list">
           {isLoaded &&
             posts.map(obj => (
-              <PostItem obj={obj} id={obj._id} key={obj._id} onRemove={handleClickRemove} isActive={obj._id === postId}/>
+              <PostItem obj={obj} id={obj._id} key={obj._id} onRemove={handleClickRemove} isActive={obj._id === postId} onEdit={handleClickEdit}/>
             ))}
         </ul>
         <Pagination />
