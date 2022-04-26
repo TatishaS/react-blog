@@ -27,10 +27,14 @@
     width: 100%;
     background: #ffffff;
     color: $black;
+
+    font-size: 14px;
+    line-height: 22px;
     border: 1px solid #eceef1;
     resize: none;
 
     border-radius: 10px;
+    padding: 10px 14px 11px 18px;
     margin-bottom: 22px;
   }
   &__form-btn {

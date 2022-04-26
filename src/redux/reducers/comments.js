@@ -1,19 +1,40 @@
 const initialState = {
-    items: [],
-    isLoaded: false,
-  };
-  
-  const comments = (state = initialState, action) => {
-    switch (action.type) {
-      case 'SET_COMMENTS':
-        return {
-          ...state,
-          items: action.payload,
-          isLoaded: true,
-        };
-      default:
-        return state;
+  comments: [],
+  commentsLoaded: false,
+  commentedPostId: '',
+};
+
+const comments = (state = initialState, action) => {
+  switch (action.type) {
+    case 'SET_COMMENTS_LOADED':
+      return {
+        ...state,
+        commentsLoaded: true,
+      };
+
+    case 'SET_POST_COMMENTS': {
+      console.log(action.payload);
+      console.log(action.payload.data);
+      console.log(action.payload.id);
+      return {
+        ...state,
+        comments: action.payload.data,
+        commentedPostId: action.payload.id,
+        commentsLoaded: true,
+      };
     }
-  };
-  
-  export default comments;
+
+    case 'ADD_COMMENT': {
+      const updatedItems = [action.payload, ...state.comments];
+      return {
+        ...state,
+        comments: updatedItems,
+        commentsLoaded: true,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+export default comments;

@@ -1,39 +1,29 @@
 import React from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { loginUser } from '../redux/actions/user';
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [fields, setFields] = React.useState({
     email: '',
     password: '',
   });
 
+  /* Send filled in form */
   const onSubmit = async event => {
     event.preventDefault();
+    // Create user object
     const user = {
       email: fields.email,
       password: fields.password,
     };
 
-    console.log(user);
-
-    try {
-      const resp = await axios.post('http://localhost:5656/auth/login', user);
-      console.log(resp);
-
-      if (resp.data) {
-        /*После авторизации сохраняем токен и переходим в профиль */
-        const { token } = resp.data;
-        localStorage.setItem('token', token);
-       
-        alert('Поздравляем! Вы авторизованы.');
-        navigate('/profile');
-      }
-    } catch (err) {
-      console.log(err);
-      alert('Неверный логин или пароль');
-    }
+    // Attempt to login for user
+    dispatch(loginUser(user));
+    navigate('/');
 
     setFields({
       email: '',

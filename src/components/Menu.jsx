@@ -1,43 +1,67 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutSuccess } from '../redux/actions/user';
+import { formatDate } from '../config/date';
 
 export const Menu = () => {
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const userData = useSelector(({ user }) => user.userData);
+  const isAuth = useSelector(({ user }) => user.isAuth);
+
+  const handleClickLogout = () => {
+    if (isAuth && window.confirm('Вы действительно хотите выйти?')) {
+      dispatch(logoutSuccess());
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <nav className={menuOpen ? 'menu' : 'menu menu--close'}>
       <div className="menu__content">
-        <div className="menu__profile">
-          <p className="menu__name">Вася Пупкин</p>
-          <p className="menu__date">
-            Дата регистрации: 12 августа 2019 в 08:06
-          </p>
-        </div>
+        {isAuth ? (
+          <div className="menu__profile">
+            <p className="menu__name">{userData.fullName}</p>
+            <p className="menu__date">
+              Дата регистрации: {formatDate(userData.createdAt)}
+            </p>
+          </div>
+        ) : null}
         <ul className="menu__list">
           <li className="menu__list-item">
             <Link className={pathname === '/' ? 'active' : undefined} to="/">
               Главная
             </Link>
           </li>
+          {isAuth ? (
+            <>
+              <li className="menu__list-item">
+                <Link
+                  className={pathname === '/profile' ? 'active' : undefined}
+                  to={`/profile/${userData._id}`}
+                >
+                  Мой профиль
+                </Link>
+              </li>
+              <li className="menu__list-item">
+                <Link
+                  className={pathname === '/create-post' ? 'active' : undefined}
+                  to="/create-post"
+                >
+                  Создать запись
+                </Link>
+              </li>
+            </>
+          ) : null}
           <li className="menu__list-item">
-            <Link
-              className={pathname === '/profile' ? 'active' : undefined}
-              to="/profile"
-            >
-              Мой профиль
+            <Link to={isAuth ? '/' : '/login'} onClick={handleClickLogout}>
+              {isAuth ? 'Выйти' : 'Войти'}
             </Link>
-          </li>
-          <li className="menu__list-item">
-            <Link
-              className={pathname === '/create-post' ? 'active' : undefined}
-              to="/create-post"
-            >
-              Создать запись
-            </Link>
-          </li>
-          <li className="menu__list-item">
-            <Link to="/logout">Выйти</Link>
           </li>
         </ul>
 

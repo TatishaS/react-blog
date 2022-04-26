@@ -1,8 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { registerUser } from '../redux/actions/user';
 
 export const Register = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [fields, setFields] = React.useState({
     fullName: '',
@@ -12,26 +16,22 @@ export const Register = () => {
 
   const onSubmit = async event => {
     event.preventDefault();
-    console.log('Форма засабмичена');
+
+    /* Create new user */
     const newUser = {
       fullName: fields.fullName,
       email: fields.email,
       password: fields.password,
     };
 
-    console.log(newUser);
+    /* Attempt to register */
+    dispatch(registerUser(newUser));
+    alert('Вы зарегистрированы! Теперь вы можете войти в профиль');
 
-    try {
-      const resp = await axios.post(
-        'http://localhost:5656/auth/register',
-        newUser
-      );
-      console.log(resp);
-      resp.data && navigate('/login');
-    } catch (err) {
-      console.log(err);
-    }
+    /* After successful registration go to login page */
+    navigate('/login');
 
+    /* Clear inputs */
     setFields({
       fullName: '',
       email: '',

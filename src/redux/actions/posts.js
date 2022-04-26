@@ -12,26 +12,24 @@ export const setPostData = item => ({
 
 export const saveCurrentId = id => ({
   type: 'SAVE_CURRENT_ID',
-  payload: id
+  payload: id,
 });
 
+export const updatePost = (id, updatedItem) => async dispatch => {
+  const { token } = JSON.parse(localStorage.getItem('profile'));
 
-export const updatePost =(id, updatedItem) => async dispatch => {
-  const token = localStorage.getItem('token');
   try {
-    const {data} = await axios.patch(`http://localhost:5656/posts/${id}`, updatedItem, {
-      headers: {
-        Authorization: token,
-      },
-    });
-
-    dispatch({
-      type: 'UPDATE_POST',
-      payload: data
-    })
+    const resp = await axios.patch(
+      `http://localhost:5656/posts/${id}`,
+      updatedItem,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
   } catch (error) {
     console.log(error);
-
   }
 };
 
@@ -46,43 +44,39 @@ export const setPostLoaded = payload => ({
 });
 
 export const addPost = item => async dispatch => {
-  const token = localStorage.getItem('token');
+  const { token } = JSON.parse(localStorage.getItem('profile'));
   try {
-    const {data} = await axios.post('http://localhost:5656/posts', item, {
+    const { data } = await axios.post('http://localhost:5656/posts', item, {
       headers: {
         Authorization: token,
       },
     });
-    console.log(data);
+
     dispatch({
       type: 'ADD_POST',
-      payload: data
-    })
-  }
-  catch (error) {
+      payload: data,
+    });
+  } catch (error) {
     console.log(error);
   }
-  
 };
 
 export const removePost = id => async dispatch => {
-  const token = localStorage.getItem('token');
+  const { token } = JSON.parse(localStorage.getItem('profile'));
   try {
     await axios.delete(`http://localhost:5656/posts/${id}`, {
       headers: {
         Authorization: token,
       },
     });
-  
+
     dispatch({
       type: 'REMOVE_POST',
-      payload: id
-    })
+      payload: id,
+    });
   } catch (error) {
     console.log(error);
-
   }
-  
 };
 
 export const fetchPost = id => async dispatch => {
@@ -90,17 +84,12 @@ export const fetchPost = id => async dispatch => {
 
   try {
     await axios.get(`http://localhost:5656/posts/${id}`).then(({ data }) => {
-    dispatch(setPostData(data));
-  });
-  }
-  catch (error) {
+      dispatch(setPostData(data));
+    });
+  } catch (error) {
     console.log(error);
-
   }
-
-  
 };
-
 
 export const fetchPosts = () => async dispatch => {
   dispatch(setLoaded(false));

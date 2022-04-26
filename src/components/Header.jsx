@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import logoSvg from '../assets/img/logo.svg';
 import { ReactComponent as SearchIcon } from '../assets/img/icon-search.svg';
@@ -7,28 +8,31 @@ import { ReactComponent as WriteIcon } from '../assets/img/icon-write.svg';
 import { ReactComponent as LogoutIcon } from '../assets/img/icon-logout.svg';
 import { ReactComponent as ProfileIcon } from '../assets/img/icon-profile.svg';
 
+import { logoutSuccess } from '../redux/actions/user';
+
 export const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isAuth = useSelector(({ user }) => user.isAuth);
   const [showSearch, setShowSearch] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState('');
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [isAuth, setIsAuth] = React.useState(false);
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   /* Проверяем, авторизованы мы или нет */
-  React.useEffect(() => {
-    if (window.localStorage.getItem('token')) {
+
+  /* React.useEffect(() => {
+    if (window.localStorage.getItem('profile')) {
       setIsAuth(true);
     } else {
       setIsAuth(false);
     }
-  }, [pathname]);
+  }, [pathname]); */
 
   const handleClickLogout = () => {
     if (isAuth && window.confirm('Вы действительно хотите выйти?')) {
-      window.localStorage.removeItem('token');
+      dispatch(logoutSuccess());
       navigate('/');
-      setIsAuth(false);
     } else {
       navigate('/login');
     }
