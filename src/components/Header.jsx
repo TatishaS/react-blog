@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import logoSvg from '../assets/img/logo.svg';
@@ -10,24 +11,12 @@ import { ReactComponent as ProfileIcon } from '../assets/img/icon-profile.svg';
 
 import { logoutSuccess } from '../redux/actions/user';
 
-export const Header = () => {
+export const Header = ({ handleSearch, handleChangeInput, searchValue }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+
   const isAuth = useSelector(({ user }) => user.isAuth);
-  const [showSearch, setShowSearch] = React.useState(false);
-  const [searchValue, setSearchValue] = React.useState('');
-  const [searchQuery, setSearchQuery] = React.useState('');
-
-  /* Проверяем, авторизованы мы или нет */
-
-  /* React.useEffect(() => {
-    if (window.localStorage.getItem('profile')) {
-      setIsAuth(true);
-    } else {
-      setIsAuth(false);
-    }
-  }, [pathname]); */
+  const [searchVisible, setSearchVisible] = React.useState(false);
 
   const handleClickLogout = () => {
     if (isAuth && window.confirm('Вы действительно хотите выйти?')) {
@@ -46,16 +35,6 @@ export const Header = () => {
     }
   };
 
-  const handleSearchQuery = event => {
-    if (event.key === 'Enter') {
-      console.log('enter press here! ');
-      const query = searchValue;
-      setSearchQuery(query);
-      console.log(searchQuery);
-    }
-    setSearchValue('');
-  };
-
   return (
     <header className="header">
       <div className="header__inner">
@@ -63,19 +42,19 @@ export const Header = () => {
           <img className="header__logo" src={logoSvg} alt="logo" />
         </Link>
 
-        {showSearch ? (
+        {searchVisible ? (
           <div className="header__search-box">
             <input
               type="text"
               className="header__search-input"
               aria-label="search"
               placeholder="Поиск статьи по заголовку или тексту..."
-              onChange={event => setSearchValue(event.target.value)}
-              onKeyPress={handleSearchQuery}
+              value={searchValue}
+              onChange={handleChangeInput}
             />
             <button
               className="header__search-close"
-              onClick={() => setShowSearch(false)}
+              onClick={() => setSearchVisible(false)}
             ></button>
           </div>
         ) : null}
@@ -83,7 +62,7 @@ export const Header = () => {
         <div className="header__icons">
           <button
             className="header__icon-link header__icon-link--search"
-            onClick={() => setShowSearch(true)}
+            onClick={() => setSearchVisible(true)}
           >
             <SearchIcon
               className="header__icon header__icon--search"

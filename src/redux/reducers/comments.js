@@ -13,9 +13,6 @@ const comments = (state = initialState, action) => {
       };
 
     case 'SET_POST_COMMENTS': {
-      console.log(action.payload);
-      console.log(action.payload.data);
-      console.log(action.payload.id);
       return {
         ...state,
         comments: action.payload.data,

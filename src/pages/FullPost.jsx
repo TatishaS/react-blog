@@ -15,10 +15,12 @@ export const FullPost = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(({ user }) => user.isAuth);
   const post = useSelector(({ posts }) => posts.postData);
+  const postLoaded = useSelector(({ posts }) => posts.postLoaded);
+
   const commentsArr = useSelector(({ comments }) => comments.comments);
   const id = useSelector(({ comments }) => comments.commentedPostId);
   const commentsLoaded = useSelector(({ comments }) => comments.commentsLoaded);
-  const postLoaded = useSelector(({ posts }) => posts.postLoaded);
+
   const [comments, setComments] = React.useState(commentsArr);
   const [comment, setComment] = React.useState('');
 
@@ -30,11 +32,10 @@ export const FullPost = () => {
     dispatch(fetchPost(postId));
   }, [postId]);
 
-  React.useEffect(() => {
+  /*  React.useEffect(() => {
     dispatch(fetchPostComments(id));
-    //setComments(commentsArr);
   }, []);
-
+ */
   React.useEffect(() => {
     dispatch(fetchPostComments(postId));
     setComments(commentsArr);
@@ -97,7 +98,7 @@ export const FullPost = () => {
             </div>
             <div className="fullpost__comments comments">
               <h2 className="comments__title">
-                Комментарии {`(${comments?.length})`}
+                Комментарии {`(${comments.length})`}
               </h2>
               <ul className="comments__list">
                 {commentsLoaded && comments.length ? (

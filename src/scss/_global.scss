@@ -67,3 +67,23 @@ img {
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
+
+.spinner {
+  width: 620px;
+  margin: 80px auto;
+  text-align: center;
+
+  &__icon {
+    animation: rotate 1s infinite linear;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

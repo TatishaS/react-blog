@@ -17,7 +17,7 @@ export const addComment = item => async dispatch => {
         Authorization: token,
       },
     });
-    console.log(data);
+
     dispatch({
       type: 'ADD_COMMENT',
       payload: data,
@@ -34,7 +34,6 @@ export const fetchPostComments = id => async dispatch => {
     await axios
       .get(`http://localhost:5656/comments/post/${id}`)
       .then(({ data }) => {
-        console.log(data);
         dispatch(setPostComments({ data, id }));
       });
   } catch (error) {

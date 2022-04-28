@@ -10,19 +10,27 @@ import {
 
 import { Pagination } from '../components/Pagination';
 import { PostItem } from '../components/PostItem';
+import { ErrorBlock } from '../components/ErrorBlock';
 
-export const PostsList = () => {
+export const PostsList = ({ posts }) => {
   const dispatch = useDispatch();
 
-  const posts = useSelector(({ posts }) => posts.items.items);
-  const isLoaded = useSelector(({ posts }) => posts.isLoaded);
+  /*  const [postItems, setPostItems] = React.useState([]);
+  console.log(postItems); */
 
   let params = useParams();
   const postId = params.id;
 
-  React.useEffect(() => {
+  if (!posts.length) return <ErrorBlock />;
+
+  /* React.useEffect(() => {
     dispatch(fetchPosts());
-  }, [dispatch]);
+    setPostItems(posts);
+  }, [dispatch]); */
+  /* 
+  if (postsData) {
+    setPostItems(postsData);
+  } */
 
   const handleClickRemove = id => {
     if (window.confirm('Вы хотите удалить пост?')) {
@@ -41,17 +49,16 @@ export const PostsList = () => {
     <>
       <article className="posts">
         <ul className="posts__list">
-          {isLoaded &&
-            posts.map(obj => (
-              <PostItem
-                obj={obj}
-                id={obj._id}
-                key={obj._id}
-                onRemove={handleClickRemove}
-                isActive={obj._id === postId}
-                onEdit={handleClickEdit}
-              />
-            ))}
+          {posts?.map(obj => (
+            <PostItem
+              obj={obj}
+              id={obj._id}
+              key={obj._id}
+              onRemove={handleClickRemove}
+              isActive={obj._id === postId}
+              onEdit={handleClickEdit}
+            />
+          ))}
         </ul>
         <Pagination />
       </article>

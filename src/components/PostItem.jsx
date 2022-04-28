@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux';
 
 export const PostItem = ({ obj, onRemove, isActive, onEdit }) => {
   const isAuth = useSelector(({ user }) => user.isAuth);
+  const profile = JSON.parse(window.localStorage.getItem('profile')) || [];
+  const userId = profile._id;
+  const authorId = obj.user._id;
 
   return (
     <li className={isActive ? 'post post--active' : 'post'} key={obj._id}>
@@ -17,7 +20,7 @@ export const PostItem = ({ obj, onRemove, isActive, onEdit }) => {
           <span className="post__date">{formatDate(obj.createdAt)}</span>
           <span className="post__views">{obj.views}</span>
         </div>
-        {isAuth ? (
+        {isAuth && userId === authorId ? (
           <div className="post__edit">
             <Link
               to={`/post/${obj._id}/edit`}
