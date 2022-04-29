@@ -25,11 +25,14 @@ export const Layout = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
+  // Get search results
   const getResults = async query => {
+    // Set initial state when triggering search
     setError(false);
     setSearchLoading(true);
     setResultsLoaded(false);
 
+    // Attempt to send request to server
     try {
       const { data } = await axios.get(
         `http://localhost:5656/posts?query=${query}&limit=10`
@@ -37,35 +40,29 @@ export const Layout = () => {
       setResults(data);
       setResultsLoaded(true);
     } catch (error) {
-      setError(true);
+      // Reset search state in case of error
+
       setSearchLoading(false);
       setResultsLoaded(false);
 
+      // Inform user about error
+      setError(true);
       console.log(error);
     }
 
     setSearchLoading(false);
   };
 
-  /* const handleSearch = event => {
-    if (event.key === 'Enter') {
-      //console.log('enter press here! ');
-      if (!searchValue) return;
-      getResults(searchValue);
+  // Debouncing requests to server
+  const getDebouncedResults = React.useCallback(
+    debounce(value => getResults(value), 500),
+    []
+  );
 
-      setSearchValue('');
-    }
-  }; */
+  // Debounced search triggered by input change
   const handleChangeInput = event => {
     setSearchValue(event.target.value);
-    console.log(searchValue);
-    //getResults(searchValue);
-  };
-  //const optimizedSearch = debounce(handleChangeInput, 1000);
-
-  const handleSearch = event => {
-    debounce(handleChangeInput, 1000);
-    getResults(searchValue);
+    getDebouncedResults(searchValue);
   };
 
   return (

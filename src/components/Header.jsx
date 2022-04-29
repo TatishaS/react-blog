@@ -11,7 +11,7 @@ import { ReactComponent as ProfileIcon } from '../assets/img/icon-profile.svg';
 
 import { logoutSuccess } from '../redux/actions/user';
 
-export const Header = ({ handleSearch, handleChangeInput, searchValue }) => {
+export const Header = ({ handleChangeInput, searchValue }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
