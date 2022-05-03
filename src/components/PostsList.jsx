@@ -12,11 +12,14 @@ import { Pagination } from '../components/Pagination';
 import { PostItem } from '../components/PostItem';
 import { ErrorBlock } from '../components/ErrorBlock';
 
-export const PostsList = ({ posts }) => {
+export const PostsList = ({
+  posts,
+  pageCount,
+  page,
+  onPrevPage,
+  onNextPage,
+}) => {
   const dispatch = useDispatch();
-
-  /*  const [postItems, setPostItems] = React.useState([]);
-  console.log(postItems); */
 
   let params = useParams();
   const postId = params.id;
@@ -60,7 +63,12 @@ export const PostsList = ({ posts }) => {
             />
           ))}
         </ul>
-        <Pagination />
+        <Pagination
+          page={page}
+          pageCount={pageCount}
+          onPrevPage={onPrevPage}
+          onNextPage={onNextPage}
+        />
       </article>
     </>
   );

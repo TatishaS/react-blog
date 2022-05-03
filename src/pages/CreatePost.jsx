@@ -14,6 +14,7 @@ import {
 export const CreatePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const postData = useSelector(({ posts }) => posts.postData);
   const currentId = useSelector(({ posts }) => posts.currentId);
 
@@ -23,7 +24,6 @@ export const CreatePost = () => {
     photoUrl: '',
     text: '',
   });
-
   const [uploading, setUploading] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
 
@@ -32,16 +32,16 @@ export const CreatePost = () => {
 
   const { title, description, photoUrl, text } = inputs;
 
-  /* Clear inputs and all data in the form */
+  // Clear inputs and all data in the form
   const clearForm = () => {
-    /* Clear refs */
+    // Clear refs
     if (fileInputRef.current.files[0]) {
       fileInputRef.current.value = '';
     }
     if (editorRef.current) {
       editorRef.current.setContent('');
     }
-    /* Clear inputs */
+    // Clear inputs
     setInputs({
       title: '',
       description: '',
@@ -53,15 +53,31 @@ export const CreatePost = () => {
     setEditMode(false);
   };
 
-  /* Check if we already have post data and post id to edit the post */
+  // Check the url and then toggle edit mode
+  React.useEffect(() => {
+    if (pathname === '/create-post') {
+      clearForm();
+      setEditMode(false);
+    } else {
+      setEditMode(true);
+    }
+  }, [pathname]);
+
+  // Check if we have postData to fill in the inputs for editing
   React.useEffect(() => {
     if (postData) {
-      setEditMode(true);
-      setInputs(postData);
-    } else {
-      clearForm();
+      setInputs({
+        title: postData.title,
+        description: postData.description,
+        photoUrl: postData.photoUrl,
+        text: postData.text,
+      });
+      console.log(inputs);
     }
   }, [postData]);
+
+  console.log(editMode);
+  console.log(postData);
 
   const handlePhotoChange = event => {
     setInputs({
@@ -103,10 +119,10 @@ export const CreatePost = () => {
     }
   };
 
-  /* Handling 2 submit scenarios */
+  // Handling 2 submit scenarios
   const handleSubmit = event => {
     event.preventDefault();
-    /* Creating object with post data */
+    // Creating object with post data
     if (title && description && text) {
       const post = {
         title,
@@ -114,10 +130,11 @@ export const CreatePost = () => {
         photoUrl,
         text,
       };
-      /* 2 scenarios: we update existing post OR add new post */
+      // 2 scenarios: we update existing post OR add new post
       editMode
         ? dispatch(updatePost(currentId, post))
         : dispatch(addPost(post));
+      //dispatch(fetchPosts());
       clearForm();
       navigate('/');
     } else {
@@ -141,7 +158,7 @@ export const CreatePost = () => {
             className="editor__title-input"
             type="text"
             placeholder="Введите заголовок"
-            name="title"
+            /* name="title" */
             id="title"
             value={title}
             onChange={event => {
@@ -157,7 +174,7 @@ export const CreatePost = () => {
             <textarea
               className="editor__descr-input"
               rows="3"
-              name="description"
+              /*  name="description" */
               id="description"
               value={description}
               onChange={event => {
@@ -166,35 +183,36 @@ export const CreatePost = () => {
             />
           </div>
           <div className="editor__field">
-            <label className="editor__field-label" htmlFor="image">
-              Ссылка на изображение
-            </label>
+            <p className="editor__field-descr">Ссылка на изображение</p>
 
             <input
-              className="editor__img-input"
-              ref={fileInputRef}
-              name="photoUrl"
-              id="image"
+              className="editor__file-input visually-hidden"
               type="file"
-              onChange={handlePhotoChange}
-              disabled={uploading}
+              ref={fileInputRef}
+              id="image"
+              onChange={uploadFile}
               accept=".jpg, .jpeg, .png"
+            />
+            <input
+              className="editor__img-input"
+              type="text"
+              value={photoUrl}
+              disabled={uploading}
+              onChange={event => {
+                setInputs({ ...inputs, photoUrl: event.target.value });
+              }}
               required
             />
-            <button
+
+            <label
               className={
                 uploading ? 'editor__img-btn disabled' : 'editor__img-btn'
               }
-              onClick={uploadFile}
               disabled={uploading}
+              htmlFor="image"
             >
               {uploading ? 'Загрузка...' : 'Загрузить'}
-            </button>
-            {uploading && (
-              <p>
-                <b>Идёт загрузка...</b>
-              </p>
-            )}
+            </label>
           </div>
 
           <div className="editor__field">
@@ -210,7 +228,9 @@ export const CreatePost = () => {
                 height: 546,
                 menubar: false,
                 selector: 'textarea',
-                plugins: ['lists link image help'],
+                plugins: ['lists link image help paste'],
+                paste_text_sticky: true,
+                paste_text_sticky_default: true,
                 toolbar:
                   'bold italic formatselect| blockquote bullist numlist | link image | fullscreen | help',
                 block_formats:

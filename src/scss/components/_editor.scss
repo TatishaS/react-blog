@@ -24,13 +24,11 @@
   }
 
   &__title-input::placeholder {
-    /*  font-weight: 800;
-    font-size: 42px;
-    line-height: 52px; */
     color: #d7d7d7;
   }
 
-  &__field-label {
+  &__field-label,
+  &__field-descr {
     display: block;
     font-weight: 600;
     font-size: 16px;
@@ -57,15 +55,13 @@
     width: 100%;
     resize: none;
   }
+  &__file-input {
+    display: none;
+  }
 
   &__img-input {
     width: 442px;
   }
-
-  /* ::-webkit-file-upload-button,
-  ::file-selector-button {
-    display: none;
-  } */
   &__img-btn {
     display: inline-block;
     width: 145px;
@@ -150,22 +146,4 @@
   &__btn--delete {
     background-color: #f3f3f3;
   }
-
-  /*   & .tox {
-    box-shadow: none;
-    box-sizing: content-box;
-    color: #222f3e;
-    cursor: auto;
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: normal;
-    line-height: normal;
-    -webkit-tap-highlight-color: transparent;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
-    vertical-align: initial;
-    white-space: normal;
-  } */
 }

@@ -5,11 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Header } from '../components/Header';
 import { Menu } from '../components/Menu';
 import { PostsList } from '../components/PostsList';
+import { fetchPosts } from '../redux/actions/posts';
 import { formatDate } from '../config/date';
 
 export const Profile = () => {
+  const dispatch = useDispatch();
   const userData = useSelector(({ user }) => user.userData);
   const isAuth = useSelector(({ user }) => user.isAuth);
+  const posts = useSelector(({ posts }) => posts.items.items);
+  const isLoaded = useSelector(({ posts }) => posts.isLoaded);
+  console.log(posts);
+  console.log(isLoaded);
+
+  React.useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   /* Проверяем, авторизован ли пользователь */
   const profile = JSON.parse(window.localStorage.getItem('profile')) || [];
@@ -31,7 +41,7 @@ export const Profile = () => {
             <span>{userData ? formatDate(userData.createdAt) : null}</span>
           </p>
         </section>
-        <PostsList />
+        <PostsList posts={isLoaded && posts} />
       </div>
     </>
   );
