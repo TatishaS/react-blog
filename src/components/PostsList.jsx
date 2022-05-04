@@ -9,7 +9,7 @@ import {
 } from '../redux/actions/posts';
 
 import { Pagination } from '../components/Pagination';
-import { PostItem } from '../components/PostItem';
+import { PostItem } from './PostItem';
 import { ErrorBlock } from '../components/ErrorBlock';
 
 export const PostsList = ({

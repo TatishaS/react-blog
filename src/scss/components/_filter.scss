@@ -1,0 +1,22 @@
+.filter {
+  &__tabs {
+    margin-bottom: 25px;
+  }
+  &__tab {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #1d1d1d;
+    background-color: transparent;
+    padding: 6px 9px 9px 9px;
+    margin-right: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &--active {
+      color: #36b55a;
+      background-color: rgba(64, 210, 105, 0.08);
+    }
+  }
+}

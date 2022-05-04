@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 
 import {
@@ -72,12 +72,8 @@ export const CreatePost = () => {
         photoUrl: postData.photoUrl,
         text: postData.text,
       });
-      console.log(inputs);
     }
   }, [postData]);
-
-  console.log(editMode);
-  console.log(postData);
 
   const handlePhotoChange = event => {
     setInputs({

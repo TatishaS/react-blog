@@ -1,5 +1,6 @@
 const initialState = {
   comments: [],
+  userComments: [],
   commentsLoaded: false,
   commentedPostId: '',
 };

@@ -1,5 +1,6 @@
 const initialState = {
   items: [],
+  userItems: [],
   isLoaded: false,
   postLoaded: false,
   postData: {},
@@ -14,6 +15,7 @@ const posts = (state = initialState, action) => {
         items: action.payload,
         isLoaded: true,
       };
+
     case 'SET_POST_LOADED':
       return {
         ...state,

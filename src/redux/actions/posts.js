@@ -96,7 +96,6 @@ export const fetchPosts = page => async dispatch => {
   await axios
     .get(`http://localhost:5656/posts?page=${page}`)
     .then(({ data }) => {
-      console.log(data);
       dispatch(setPosts(data));
     });
 };

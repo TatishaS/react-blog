@@ -29,7 +29,6 @@ export const Layout = () => {
   React.useEffect(() => {
     if (page) {
       dispatch(fetchPosts(page));
-      //isLoaded && setPageCount(Math.ceil(postsTotal / ITEMS_PER_PAGE));
     }
   }, [dispatch, page]);
 
@@ -38,7 +37,6 @@ export const Layout = () => {
       setPageCount(Math.ceil(postsTotal / ITEMS_PER_PAGE));
     }
   }, [posts]);
-  console.log(pageCount);
 
   // Get search results
   const getResults = async query => {
@@ -50,13 +48,12 @@ export const Layout = () => {
     // Attempt to send request to server
     try {
       const { data } = await axios.get(
-        `http://localhost:5656/posts?query=${query}&limit=10`
+        `http://localhost:5656/posts?query=${query}`
       );
       setResults(data);
       setResultsLoaded(true);
     } catch (error) {
       // Reset search state in case of error
-
       setSearchLoading(false);
       setResultsLoaded(false);
 
@@ -80,7 +77,7 @@ export const Layout = () => {
     getDebouncedResults(searchValue);
   };
 
-  // Handling results page
+  // Handling results prev/next page
   const handlePrevPage = () => {
     setPage(page => {
       if (page === 1) return page;

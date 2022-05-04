@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { formatDate } from '../config/date';
+import { formatDate } from '../../config/date';
 import { useSelector } from 'react-redux';
 
 export const PostItem = ({ obj, onRemove, isActive, onEdit }) => {
