@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+
 import { Editor } from '@tinymce/tinymce-react';
 
 import {
@@ -9,12 +11,15 @@ import {
   saveCurrentId,
   updatePost,
   setPostData,
+  fetchPosts,
 } from '../redux/actions/posts';
 
 export const CreatePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const [page, setPage] = useOutletContext();
+
   const postData = useSelector(({ posts }) => posts.postData);
   const currentId = useSelector(({ posts }) => posts.currentId);
 
@@ -53,16 +58,6 @@ export const CreatePost = () => {
     setEditMode(false);
   };
 
-  // Check the url and then toggle edit mode
-  React.useEffect(() => {
-    if (pathname === '/create-post') {
-      clearForm();
-      setEditMode(false);
-    } else {
-      setEditMode(true);
-    }
-  }, [pathname]);
-
   // Check if we have postData to fill in the inputs for editing
   React.useEffect(() => {
     if (postData) {
@@ -74,6 +69,16 @@ export const CreatePost = () => {
       });
     }
   }, [postData]);
+
+  // Check the url and then toggle edit mode
+  React.useEffect(() => {
+    if (pathname === '/create-post') {
+      clearForm();
+      setEditMode(false);
+    } else {
+      setEditMode(true);
+    }
+  }, [pathname]);
 
   const handlePhotoChange = event => {
     setInputs({
@@ -91,22 +96,26 @@ export const CreatePost = () => {
     formData.append('file', imgFile);
 
     if (imgFile) {
-      const { data } = await axios.post(
-        'http://localhost:5656/posts/upload',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      try {
+        const { data } = await axios.post(
+          'http://localhost:5656/posts/upload',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
 
-      const fileUrl = data.url;
+        const fileUrl = data.url;
 
-      setInputs({
-        ...inputs,
-        photoUrl: fileUrl,
-      });
+        setInputs({
+          ...inputs,
+          photoUrl: fileUrl,
+        });
+      } catch (error) {
+        alert(error.message);
+      }
 
       setUploading(false);
     } else {
@@ -116,7 +125,7 @@ export const CreatePost = () => {
   };
 
   // Handling 2 submit scenarios
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
     // Creating object with post data
     if (title && description && text) {
@@ -128,10 +137,11 @@ export const CreatePost = () => {
       };
       // 2 scenarios: we update existing post OR add new post
       editMode
-        ? dispatch(updatePost(currentId, post))
-        : dispatch(addPost(post));
-      //dispatch(fetchPosts());
+        ? await dispatch(updatePost(currentId, post))
+        : await dispatch(addPost(post));
+
       clearForm();
+      dispatch(fetchPosts(page));
       navigate('/');
     } else {
       alert('Заполните все поля');

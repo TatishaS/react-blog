@@ -29,7 +29,7 @@ export const updatePost = (id, updatedItem) => async dispatch => {
       }
     );
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 
@@ -52,12 +52,12 @@ export const addPost = item => async dispatch => {
       },
     });
 
-    dispatch({
+    await dispatch({
       type: 'ADD_POST',
       payload: data,
     });
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 
@@ -75,7 +75,7 @@ export const removePost = id => async dispatch => {
       payload: id,
     });
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 
@@ -87,7 +87,7 @@ export const fetchPost = id => async dispatch => {
       dispatch(setPostData(data));
     });
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 

@@ -112,8 +112,8 @@
   &__btn-burger::before,
   &__btn-burger::after {
     position: absolute;
-    right: 0;
     content: '';
+    right: 0;
     width: 20px;
     height: 2px;
     background: #fff;
@@ -137,8 +137,9 @@
 
     .menu__btn {
       transform-origin: left bottom;
-      transform: rotate(-90deg) translateY(25px);
+      transform: rotate(-90deg);
       transition: all 0.4s ease-in-out;
+      left: 60px;
     }
 
     .menu__btn-burger {

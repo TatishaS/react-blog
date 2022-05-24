@@ -11,6 +11,8 @@ import { PostItem } from '../components/PostItem';
 import { EmptyPost } from '../components/PostItem/EmptyPost';
 
 import { removePost, fetchPost, saveCurrentId } from '../redux/actions/posts';
+import { fetchUser } from '../redux/actions/user';
+import { removeComment } from '../redux/actions/comments';
 
 import { formatDate } from '../config/date';
 
@@ -18,29 +20,43 @@ export const Profile = () => {
   const dispatch = useDispatch();
   const userData = useSelector(({ user }) => user.userData);
   const isAuth = useSelector(({ user }) => user.isAuth);
-  const userPosts = useSelector(({ user }) => user.userData.posts.items);
-  const userComments = useSelector(({ user }) => user.userData.comments.items);
+  const userPosts = useSelector(({ user }) => user?.userData?.posts?.items);
+  const userComments = useSelector(
+    ({ user }) => user?.userData?.comments?.items
+  );
   const [toggleItems, setToggleItems] = React.useState(1);
 
   // Check is user is authorized
   const profile = JSON.parse(window.localStorage.getItem('profile')) || [];
 
-  if (!profile) {
-    return <Navigate to="/" />;
-  }
+  // Fetch user info to get access to fresh added posts and comments
+  React.useEffect(() => {
+    dispatch(fetchUser(profile._id));
+  }, [dispatch]);
 
   // Handling post remove
-  const handleClickRemove = id => {
+  const handleClickRemove = async id => {
     if (window.confirm('Вы хотите удалить пост?')) {
-      dispatch(removePost(id));
+      await dispatch(removePost(id));
+      dispatch(fetchUser(profile._id));
     }
   };
 
   // Handling post editing
-  const handleClickEdit = id => {
+  const handleClickEdit = async id => {
     if (window.confirm('Вы хотите внести изменения в пост?')) {
-      dispatch(saveCurrentId(id));
+      console.log(window.confirm);
+      await dispatch(saveCurrentId(id));
       dispatch(fetchPost(id));
+    }
+  };
+
+  // Handling comment remove
+  const handleRemoveComment = async id => {
+    if (window.confirm('Вы хотите удалить комментарий?')) {
+      console.log(id);
+      await dispatch(removeComment(id));
+      await dispatch(fetchUser(profile._id));
     }
   };
 
@@ -48,6 +64,11 @@ export const Profile = () => {
   const toggleTab = index => {
     setToggleItems(index);
   };
+
+  // If we don't have user profile in localStorage we go to homepage
+  if (!profile) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>
@@ -90,14 +111,14 @@ export const Profile = () => {
         <div className="profile__content-tabs">
           {toggleItems === 1 ? (
             <ul className="posts__list">
-              {userData && userPosts.length ? (
+              {userData && userPosts?.length ? (
                 userPosts.map(obj => (
                   <PostItem
                     obj={obj}
                     id={obj._id}
                     key={obj._id}
-                    onRemove={handleClickRemove}
-                    onEdit={handleClickEdit}
+                    onRemove={() => handleClickRemove(obj._id)}
+                    onEdit={() => handleClickEdit(obj._id)}
                   />
                 ))
               ) : (
@@ -106,9 +127,14 @@ export const Profile = () => {
             </ul>
           ) : (
             <ul className="comments__list">
-              {userData && userComments.length ? (
+              {userData && userComments?.length ? (
                 userComments.map(obj => (
-                  <Comment key={obj._id} obj={obj} id={obj._id} />
+                  <Comment
+                    key={obj._id}
+                    obj={obj}
+                    id={obj._id}
+                    onRemove={() => handleRemoveComment(obj._id)}
+                  />
                 ))
               ) : (
                 <EmptyComment />

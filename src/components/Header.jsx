@@ -11,19 +11,24 @@ import { ReactComponent as ProfileIcon } from '../assets/img/icon-profile.svg';
 
 import { logoutSuccess } from '../redux/actions/user';
 
-export const Header = ({ handleChangeInput, searchValue }) => {
+export const Header = ({
+  handleChangeInput,
+  handleSearchVisible,
+  handleShowModal,
+  searchVisible,
+  searchValue,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const isAuth = useSelector(({ user }) => user.isAuth);
-  const [searchVisible, setSearchVisible] = React.useState(false);
 
   const handleClickLogout = () => {
     if (isAuth && window.confirm('Вы действительно хотите выйти?')) {
       dispatch(logoutSuccess());
       navigate('/');
     } else {
-      navigate('/login');
+      handleShowModal(true);
     }
   };
 
@@ -31,7 +36,7 @@ export const Header = ({ handleChangeInput, searchValue }) => {
     if (isAuth) {
       navigate('/create-post');
     } else {
-      navigate('/login');
+      handleShowModal(true);
     }
   };
 
@@ -42,7 +47,7 @@ export const Header = ({ handleChangeInput, searchValue }) => {
           <img className="header__logo" src={logoSvg} alt="logo" />
         </Link>
 
-        {searchVisible ? (
+        {searchVisible && (
           <div className="header__search-box">
             <input
               type="text"
@@ -54,15 +59,15 @@ export const Header = ({ handleChangeInput, searchValue }) => {
             />
             <button
               className="header__search-close"
-              onClick={() => setSearchVisible(false)}
+              onClick={() => handleSearchVisible(false)}
             ></button>
           </div>
-        ) : null}
+        )}
 
         <div className="header__icons">
           <button
             className="header__icon-link header__icon-link--search"
-            onClick={() => setSearchVisible(true)}
+            onClick={() => handleSearchVisible(true)}
           >
             <SearchIcon
               className="header__icon header__icon--search"
@@ -86,7 +91,7 @@ export const Header = ({ handleChangeInput, searchValue }) => {
               </Link>
               <Link
                 to="/"
-                className="header__icon-link"
+                className="header__icon-link header__icon-link--logout"
                 onClick={handleClickLogout}
               >
                 <LogoutIcon
@@ -97,17 +102,16 @@ export const Header = ({ handleChangeInput, searchValue }) => {
               </Link>
             </div>
           ) : (
-            <Link
-              to="/login"
+            <button
               className="header__icon-link"
-              onClick={handleClickLogout}
+              onClick={() => handleShowModal(true)}
             >
               <ProfileIcon
                 className="header__icon header__icon--profile"
                 width="18"
                 height="18"
               />
-            </Link>
+            </button>
           )}
         </div>
       </div>

@@ -25,7 +25,7 @@ export const addComment = item => async dispatch => {
 
     return data;
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 
@@ -37,6 +37,24 @@ export const fetchPostComments = id => async dispatch => {
         dispatch(setPostComments({ data, id }));
       });
   } catch (error) {
-    console.log(error);
+    alert(error);
+  }
+};
+
+export const removeComment = id => async dispatch => {
+  const { token } = JSON.parse(localStorage.getItem('profile'));
+  try {
+    await axios.delete(`http://localhost:5656/comments/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    dispatch({
+      type: 'REMOVE_COMMENT',
+      payload: id,
+    });
+  } catch (error) {
+    alert(error);
   }
 };

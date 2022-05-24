@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { loginUser } from '../redux/actions/user';
 
-export const Login = () => {
+export const Login = ({ handleShowModal, handleShowRegister }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [fields, setFields] = React.useState({
@@ -12,7 +12,14 @@ export const Login = () => {
     password: '',
   });
 
-  /* Send filled in form */
+  const handleChangeInput = event => {
+    setFields({
+      ...fields,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  // Send filled in form
   const onSubmit = async event => {
     event.preventDefault();
     // Create user object
@@ -22,8 +29,13 @@ export const Login = () => {
     };
 
     // Attempt to login for user
-    dispatch(loginUser(user));
-    navigate('/');
+    try {
+      dispatch(loginUser(user));
+      handleShowModal(false);
+      navigate('/');
+    } catch (error) {
+      alert(error.message);
+    }
 
     setFields({
       email: '',
@@ -31,17 +43,17 @@ export const Login = () => {
     });
   };
 
-  const handleChangeInput = event => {
-    setFields({
-      ...fields,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   return (
     <>
-      <div className="modal-overlay modal-overlay--show"></div>
+      <div
+        className="modal-overlay modal-overlay--show"
+        onClick={() => handleShowModal(false)}
+      ></div>
       <section className="login-modal modal modal--show">
+        <button
+          className="modal__close-btn"
+          onClick={() => handleShowModal(false)}
+        ></button>
         <h2 className="modal__title">Вход в аккаунт</h2>
         <form className="modal__form" onSubmit={onSubmit}>
           <p className="modal__form-field">
@@ -51,7 +63,6 @@ export const Login = () => {
             <input
               className="modal__form-input"
               type="email"
-              placeholder="hudson@gmail.com"
               name="email"
               value={fields.email}
               onChange={handleChangeInput}
@@ -65,7 +76,6 @@ export const Login = () => {
             <input
               className="modal__form-input"
               type="password"
-              placeholder="*******"
               name="password"
               value={fields.password}
               onChange={handleChangeInput}
@@ -77,9 +87,12 @@ export const Login = () => {
           </button>
         </form>
         <p>Еще не зарегистрированы?</p>
-        <Link to="/register" className="btn">
+        <button
+          className="modal__reg-btn"
+          onClick={() => handleShowRegister(true)}
+        >
           Зарегистрироваться
-        </Link>
+        </button>
       </section>
     </>
   );

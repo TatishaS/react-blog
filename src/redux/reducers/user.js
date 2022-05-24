@@ -2,6 +2,7 @@ const initialState = {
   isAuth: false,
   isLoading: false,
   userData: {},
+  userLoaded: false,
 };
 
 const user = (state = initialState, action) => {
@@ -17,6 +18,7 @@ const user = (state = initialState, action) => {
         isAuth: true,
         isLoading: false,
         userData: action.payload,
+        userLoaded: true,
       };
     }
 

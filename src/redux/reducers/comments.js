@@ -30,6 +30,18 @@ const comments = (state = initialState, action) => {
         commentsLoaded: true,
       };
     }
+
+    case 'REMOVE_COMMENT': {
+      const updatedItems = state.comments.filter(comment => {
+        return comment._id !== action.payload;
+      });
+
+      return {
+        ...state,
+        comments: updatedItems,
+      };
+    }
+
     default:
       return state;
   }

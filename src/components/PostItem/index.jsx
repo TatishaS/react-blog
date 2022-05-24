@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../config/date';
+import noImage from '../../assets/img/no-image.png';
+
 import { useSelector } from 'react-redux';
 
 export const PostItem = ({ obj, onRemove, isActive, onEdit }) => {
@@ -12,7 +14,7 @@ export const PostItem = ({ obj, onRemove, isActive, onEdit }) => {
   return (
     <li className={isActive ? 'post post--active' : 'post'} key={obj._id}>
       <div className="post__content">
-        <Link to={`/post/${obj._id}`} className="post__title-link">
+        <Link to={`/post/${obj?._id}`} className="post__title-link">
           <h6 className="post__title">{obj.title}</h6>
         </Link>
         <p className="post__text">{obj.description.substring(0, 100)}...</p>
@@ -38,9 +40,10 @@ export const PostItem = ({ obj, onRemove, isActive, onEdit }) => {
           </div>
         ) : null}
       </div>
+
       <img
         className="post__img"
-        src={`http://localhost:5656${obj.photoUrl}`}
+        src={obj.photoUrl ? `http://localhost:5656${obj.photoUrl}` : noImage}
         alt="Post-1"
         width="165"
         height="165"

@@ -45,6 +45,7 @@ const posts = (state = initialState, action) => {
 
     case 'ADD_POST': {
       const updatedItems = [action.payload, ...state.items.items];
+
       return {
         ...state,
         items: { ...state, items: updatedItems },

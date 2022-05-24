@@ -6,7 +6,11 @@ import parse from 'html-react-parser';
 import { Comment } from '../components/Comment';
 import { PostLoadingBlock } from '../components/PostLoadingBlock';
 import { fetchPost } from '../redux/actions/posts';
-import { addComment, fetchPostComments } from '../redux/actions/comments';
+import {
+  addComment,
+  fetchPostComments,
+  removeComment,
+} from '../redux/actions/comments';
 import { formatDate } from '../config/date';
 import { EmptyComment } from '../components/Comment/EmptyComment';
 
@@ -27,15 +31,12 @@ export const FullPost = () => {
   let params = useParams();
   const postId = params.id;
 
-  /* Watch the post id in the browser */
+  // Watch the post id in the browser
   React.useEffect(() => {
     dispatch(fetchPost(postId));
   }, [postId]);
 
-  /*  React.useEffect(() => {
-    dispatch(fetchPostComments(id));
-  }, []);
- */
+  // Watch post id to load related comments
   React.useEffect(() => {
     dispatch(fetchPostComments(postId));
     setComments(commentsArr);
@@ -71,6 +72,18 @@ export const FullPost = () => {
     }
   };
 
+  const handleRemoveComment = async id => {
+    if (window.confirm('Вы хотите удалить комментарий?')) {
+      console.log(id);
+      await dispatch(removeComment(id));
+      setComments(
+        comments.filter(c => {
+          return c._id !== id;
+        })
+      );
+    }
+  };
+
   return (
     <>
       {postLoaded ? (
@@ -85,6 +98,9 @@ export const FullPost = () => {
           >
             <div className="fullpost__header-inner">
               <div className="fullpost__data">
+                <span className="post__author">
+                  Автор: {post.user.fullName}
+                </span>
                 <span className="post__date">{formatDate(post.createdAt)}</span>
                 <span className="post__views">{post.views}</span>
               </div>
@@ -103,7 +119,12 @@ export const FullPost = () => {
               <ul className="comments__list">
                 {commentsLoaded && comments.length ? (
                   comments.map(obj => (
-                    <Comment key={obj._id} obj={obj} id={obj._id} />
+                    <Comment
+                      key={obj._id}
+                      obj={obj}
+                      id={obj._id}
+                      onRemove={handleRemoveComment}
+                    />
                   ))
                 ) : (
                   <EmptyComment />

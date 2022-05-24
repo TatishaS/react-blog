@@ -34,10 +34,21 @@
     cursor: pointer;
     path {
       fill: #13315e;
+      stroke: #13315e;
       opacity: 0.3;
     }
   }
 
+  &__icon-link--logout:hover,
+  &__icon-link--logout:focus,
+  &__icon-link--logout:active {
+    cursor: pointer;
+    path {
+      fill: none;
+      stroke: #13315e;
+      opacity: 0.3;
+    }
+  }
   &__search-box {
     display: block;
     position: absolute;

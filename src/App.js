@@ -8,8 +8,6 @@ import { FullPost } from './pages/FullPost';
 import { CreatePost } from './pages/CreatePost';
 import { NotFound } from './pages/NotFound';
 import { Layout } from './components/Layout';
-import { Login } from './components/Login';
-import { Register } from './components/Register';
 import { checkAuth, fetchUser } from './redux/actions/user';
 
 function App() {
@@ -36,10 +34,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-
             <Route path="post/:id" element={<FullPost />} />
             <Route path="post/:id/edit" element={<CreatePost />} />
             <Route path="create-post" element={<CreatePost />} />

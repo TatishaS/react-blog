@@ -1,14 +1,7 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {
-  fetchPosts,
-  removePost,
-  fetchPost,
-  saveCurrentId,
-} from '../redux/actions/posts';
-
-import { Pagination } from '../components/Pagination';
+import { fetchPost, saveCurrentId } from '../redux/actions/posts';
 import { PostItem } from './PostItem';
 import { ErrorBlock } from '../components/ErrorBlock';
 
@@ -18,6 +11,7 @@ export const PostsList = ({
   page,
   onPrevPage,
   onNextPage,
+  onRemove,
 }) => {
   const dispatch = useDispatch();
 
@@ -25,21 +19,6 @@ export const PostsList = ({
   const postId = params.id;
 
   if (!posts.length) return <ErrorBlock />;
-
-  /* React.useEffect(() => {
-    dispatch(fetchPosts());
-    setPostItems(posts);
-  }, [dispatch]); */
-  /* 
-  if (postsData) {
-    setPostItems(postsData);
-  } */
-
-  const handleClickRemove = id => {
-    if (window.confirm('Вы хотите удалить пост?')) {
-      dispatch(removePost(id));
-    }
-  };
 
   const handleClickEdit = id => {
     if (window.confirm('Вы хотите внести изменения в пост?')) {
@@ -57,18 +36,41 @@ export const PostsList = ({
               obj={obj}
               id={obj._id}
               key={obj._id}
-              onRemove={handleClickRemove}
+              onRemove={() => onRemove(obj._id)}
               isActive={obj._id === postId}
               onEdit={handleClickEdit}
             />
           ))}
         </ul>
-        <Pagination
-          page={page}
-          pageCount={pageCount}
-          onPrevPage={onPrevPage}
-          onNextPage={onNextPage}
-        />
+        <div className="pagination">
+          <div className="pagination__inner">
+            <div className="pagination__arrows">
+              <button
+                className={
+                  page === 1
+                    ? 'pagination__arrow pagination__arrow--left pagination__arrow--disabled'
+                    : 'pagination__arrow pagination__arrow--left'
+                }
+                aria-label="Previous"
+                onClick={onPrevPage}
+                disabled={page === 1}
+              ></button>
+              <button
+                className={
+                  page === pageCount
+                    ? 'pagination__arrow pagination__arrow--right pagination__arrow--disabled'
+                    : 'pagination__arrow pagination__arrow--right'
+                }
+                aria-label="Next"
+                onClick={onNextPage}
+                disabled={page === pageCount}
+              ></button>
+            </div>
+            <span className="pagination__numbers">
+              Страница {page} из {pageCount}
+            </span>
+          </div>
+        </div>
       </article>
     </>
   );

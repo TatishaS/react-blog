@@ -4,7 +4,7 @@ export const EmptyComment = () => {
   return (
     <div className="comment">
       <p className="comment__text">
-        Комментариев к посту еще нет. Оставьте первый комментарий!
+        Комментариев еще нет. Оставьте первый комментарий!
       </p>
     </div>
   );

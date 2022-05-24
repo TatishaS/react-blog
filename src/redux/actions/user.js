@@ -49,8 +49,9 @@ export const registerUser = newUser => async dispatch => {
     dispatch({
       type: 'REGISTER_SUCCESS',
     });
+    alert('Вы зарегистрированы! Теперь вы можете войти в профиль');
   } catch (error) {
-    console.log(error);
+    alert(error);
     dispatch({
       type: 'REGISTER_FAIL',
     });
@@ -85,12 +86,13 @@ export const fetchUser = id => async dispatch => {
         Authorization: token,
       },
     });
-    dispatch({
+    await dispatch({
       type: 'USER_LOADED',
       payload: resp.data,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    alert(error);
   }
 };
 
@@ -113,5 +115,6 @@ export const checkAuth = () => async dispatch => {
     });
   } catch (error) {
     console.log(error);
+    alert(error);
   }
 };

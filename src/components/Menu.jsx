@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logoutSuccess } from '../redux/actions/user';
 import { formatDate } from '../config/date';
 
-export const Menu = () => {
+export const Menu = ({ handleShowModal }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -16,29 +16,29 @@ export const Menu = () => {
     if (isAuth && window.confirm('Вы действительно хотите выйти?')) {
       dispatch(logoutSuccess());
       navigate('/');
-    } else {
-      navigate('/login');
+    } else if (!isAuth) {
+      handleShowModal(true);
     }
   };
 
   return (
     <nav className={menuOpen ? 'menu' : 'menu menu--close'}>
       <div className="menu__content">
-        {isAuth ? (
+        {isAuth && (
           <div className="menu__profile">
             <p className="menu__name">{userData.fullName}</p>
             <p className="menu__date">
               Дата регистрации: {formatDate(userData.createdAt)}
             </p>
           </div>
-        ) : null}
+        )}
         <ul className="menu__list">
           <li className="menu__list-item">
             <Link className={pathname === '/' ? 'active' : undefined} to="/">
               Главная
             </Link>
           </li>
-          {isAuth ? (
+          {isAuth && (
             <>
               <li className="menu__list-item">
                 <Link
@@ -57,9 +57,9 @@ export const Menu = () => {
                 </Link>
               </li>
             </>
-          ) : null}
+          )}
           <li className="menu__list-item">
-            <Link to={isAuth ? '/' : '/login'} onClick={handleClickLogout}>
+            <Link to={isAuth && '/'} onClick={handleClickLogout}>
               {isAuth ? 'Выйти' : 'Войти'}
             </Link>
           </li>
