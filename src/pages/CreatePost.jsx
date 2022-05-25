@@ -97,15 +97,11 @@ export const CreatePost = () => {
 
     if (imgFile) {
       try {
-        const { data } = await axios.post(
-          'http://localhost:5656/posts/upload',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
+        const { data } = await axios.post('/posts/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
 
         const fileUrl = data.url;
 

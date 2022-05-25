@@ -72,9 +72,7 @@ export const Layout = () => {
 
     // Attempt to send request to server
     try {
-      const { data } = await axios.get(
-        `http://localhost:5656/posts?query=${query}`
-      );
+      const { data } = await axios.get(`/posts?query=${query}`);
       setResults(data);
       setResultsLoaded(true);
     } catch (error) {

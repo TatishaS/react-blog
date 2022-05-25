@@ -90,7 +90,7 @@ export const FullPost = () => {
           <div
             className="fullpost__header"
             style={{
-              backgroundImage: `url("http://localhost:5656${post.photoUrl}")`,
+              backgroundImage: `url("${post.photoUrl}")`,
               backgroundColor: 'rgba(0, 0, 0, 0.4)',
               backgroundSize: 'cover',
             }}

@@ -43,7 +43,7 @@ export const PostItem = ({ obj, onRemove, isActive, onEdit }) => {
 
       <img
         className="post__img"
-        src={obj.photoUrl ? `http://localhost:5656${obj.photoUrl}` : noImage}
+        src={obj.photoUrl ? `${obj.photoUrl}` : noImage}
         alt="Post-1"
         width="165"
         height="165"

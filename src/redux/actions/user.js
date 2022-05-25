@@ -41,10 +41,7 @@ export const registerFail = () => ({
 
 export const registerUser = newUser => async dispatch => {
   try {
-    const resp = await axios.post(
-      'http://localhost:5656/auth/register',
-      newUser
-    );
+    const resp = await axios.post('/auth/register', newUser);
 
     dispatch({
       type: 'REGISTER_SUCCESS',
@@ -60,7 +57,7 @@ export const registerUser = newUser => async dispatch => {
 
 export const loginUser = user => async dispatch => {
   try {
-    const resp = await axios.post('http://localhost:5656/auth/login', user);
+    const resp = await axios.post('/auth/login', user);
 
     dispatch({
       type: 'LOGIN_SUCCESS',
@@ -81,7 +78,7 @@ export const fetchUser = id => async dispatch => {
   });
   const { token } = JSON.parse(localStorage.getItem('profile')) || [];
   try {
-    const resp = await axios.get(`http://localhost:5656/users/${id}`, {
+    const resp = await axios.get(`/users/${id}`, {
       headers: {
         Authorization: token,
       },
@@ -103,7 +100,7 @@ export const checkAuth = () => async dispatch => {
   const { token } = JSON.parse(localStorage.getItem('profile'));
   console.log(token);
   try {
-    const resp = await axios.get('http://localhost:5656/auth/me', {
+    const resp = await axios.get('/auth/me', {
       headers: {
         Authorization: token,
       },
