@@ -45,7 +45,6 @@ export const Profile = () => {
   // Handling post editing
   const handleClickEdit = async id => {
     if (window.confirm('Вы хотите внести изменения в пост?')) {
-      console.log(window.confirm);
       await dispatch(saveCurrentId(id));
       dispatch(fetchPost(id));
     }
@@ -54,7 +53,6 @@ export const Profile = () => {
   // Handling comment remove
   const handleRemoveComment = async id => {
     if (window.confirm('Вы хотите удалить комментарий?')) {
-      console.log(id);
       await dispatch(removeComment(id));
       await dispatch(fetchUser(profile._id));
     }

@@ -74,7 +74,6 @@ export const FullPost = () => {
 
   const handleRemoveComment = async id => {
     if (window.confirm('Вы хотите удалить комментарий?')) {
-      console.log(id);
       await dispatch(removeComment(id));
       setComments(
         comments.filter(c => {

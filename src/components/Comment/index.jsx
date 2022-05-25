@@ -7,7 +7,7 @@ export const Comment = ({ obj, onRemove }) => {
   const profile = JSON.parse(window.localStorage.getItem('profile')) || [];
 
   const { user, createdAt, text } = obj;
-  console.log(obj);
+
   const userId = profile._id;
   const authorId = user._id;
 
