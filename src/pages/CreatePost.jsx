@@ -81,7 +81,6 @@ export const CreatePost = () => {
   }, [pathname]);
 
   const handlePhotoChange = event => {
-    console.log;
     setInputs({
       ...inputs,
       photoUrl: event.target.files[0].name,
@@ -118,8 +117,6 @@ export const CreatePost = () => {
             },
           }
         );
-
-        console.log(res);
 
         //const fileUrl = data.url;
         const fileUrl = data.secure_url;
