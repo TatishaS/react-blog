@@ -91,7 +91,7 @@ export const CreatePost = () => {
   // Cloudinary upload preset name: 'upcjyzcf'
   // Signing Mode: Unsigned
   const CLOUDINARY_UPLOAD_PRESET_NAME = 'upcjyzcf';
-  const CLOUDINARY_ID = dcl2brbui;
+  const CLOUDINARY_ID = 'dcl2brbui';
 
   const uploadFile = async () => {
     const imgFile = fileInputRef.current.files[0];
@@ -109,7 +109,7 @@ export const CreatePost = () => {
             'Content-Type': 'multipart/form-data',
           },
         }); */
-        const res = await axios.post(
+        const { data } = await axios.post(
           `https://api.cloudinary.com/v1_1/${CLOUDINARY_ID}/image/upload`,
           formData,
           {
