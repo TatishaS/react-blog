@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 const { initRoutes } = require('./server-api/routes');
+//const cloudinary = require('./server-api/utils/cloudinary.js');
 const morgan = require('morgan');
 
 require('dotenv').config();
@@ -12,11 +13,11 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 //app.use(express.static('public'));
-app.use(
+/* app.use(
   fileUpload({
     createParentPath: true,
   })
-);
+); */
 app.use(express.json());
 app.use(morgan('dev'));
 

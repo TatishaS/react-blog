@@ -81,11 +81,17 @@ export const CreatePost = () => {
   }, [pathname]);
 
   const handlePhotoChange = event => {
+    console.log;
     setInputs({
       ...inputs,
       photoUrl: event.target.files[0].name,
     });
   };
+
+  // Cloudinary upload preset name: 'upcjyzcf'
+  // Signing Mode: Unsigned
+  const CLOUDINARY_UPLOAD_PRESET_NAME = 'upcjyzcf';
+  const CLOUDINARY_ID = dcl2brbui;
 
   const uploadFile = async () => {
     const imgFile = fileInputRef.current.files[0];
@@ -94,16 +100,29 @@ export const CreatePost = () => {
 
     const formData = new FormData();
     formData.append('file', imgFile);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET_NAME);
 
     if (imgFile) {
       try {
-        const { data } = await axios.post('/posts/upload', formData, {
+        /* const { data } = await axios.post('/posts/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        });
+        }); */
+        const res = await axios.post(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_ID}/image/upload`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
 
-        const fileUrl = data.url;
+        console.log(res);
+
+        //const fileUrl = data.url;
+        const fileUrl = data.secure_url;
 
         setInputs({
           ...inputs,
