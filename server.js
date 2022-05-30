@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/build'));
+app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
 
 initRoutes(app);
 
