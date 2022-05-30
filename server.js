@@ -3,7 +3,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 //const fileUpload = require('express-fileupload');
 const { initRoutes } = require('./server-api/routes');
-//const cloudinary = require('./server-api/utils/cloudinary.js');
 const morgan = require('morgan');
 
 require('dotenv').config();
