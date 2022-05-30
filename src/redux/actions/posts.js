@@ -41,19 +41,20 @@ export const setPostLoaded = payload => ({
 
 export const addPost = item => async dispatch => {
   const { token } = JSON.parse(localStorage.getItem('profile'));
-  try {
+git   try {
     const { data } = await axios.post('/posts', item, {
       headers: {
         Authorization: token,
       },
     });
+    console.log(data);
 
     await dispatch({
       type: 'ADD_POST',
       payload: data,
     });
 
-    await dispatch(fetchPost(data._id));
+    dispatch(fetchPost(data._id));
   } catch (error) {
     alert(error);
   }
