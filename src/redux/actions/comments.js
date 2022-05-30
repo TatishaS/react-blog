@@ -12,7 +12,7 @@ export const setPostComments = ({ data, id }) => ({
 export const addComment = item => async dispatch => {
   const { token } = JSON.parse(localStorage.getItem('profile'));
   try {
-    const { data } = await axios.post('/comments', item, {
+    const { data } = await axios.post('comments', item, {
       headers: {
         Authorization: token,
       },
@@ -31,7 +31,7 @@ export const addComment = item => async dispatch => {
 
 export const fetchPostComments = id => async dispatch => {
   try {
-    await axios.get(`/comments/post/${id}`).then(({ data }) => {
+    await axios.get(`comments/post/${id}`).then(({ data }) => {
       dispatch(setPostComments({ data, id }));
     });
   } catch (error) {
@@ -42,7 +42,7 @@ export const fetchPostComments = id => async dispatch => {
 export const removeComment = id => async dispatch => {
   const { token } = JSON.parse(localStorage.getItem('profile'));
   try {
-    await axios.delete(`/comments/${id}`, {
+    await axios.delete(`comments/${id}`, {
       headers: {
         Authorization: token,
       },
