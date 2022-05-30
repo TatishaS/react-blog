@@ -14,6 +14,10 @@ import {
   fetchPosts,
 } from '../redux/actions/posts';
 
+// For uploading images: Cloudinary upload preset name: 'upcjyzcf', Signing Mode: Unsigned
+const CLOUDINARY_UPLOAD_PRESET_NAME = 'upcjyzcf';
+const CLOUDINARY_ID = 'dcl2brbui';
+
 export const CreatePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -86,11 +90,6 @@ export const CreatePost = () => {
       photoUrl: event.target.files[0].name,
     });
   };
-
-  // Cloudinary upload preset name: 'upcjyzcf'
-  // Signing Mode: Unsigned
-  const CLOUDINARY_UPLOAD_PRESET_NAME = 'upcjyzcf';
-  const CLOUDINARY_ID = 'dcl2brbui';
 
   const uploadFile = async () => {
     const imgFile = fileInputRef.current.files[0];

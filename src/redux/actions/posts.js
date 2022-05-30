@@ -52,6 +52,8 @@ export const addPost = item => async dispatch => {
       type: 'ADD_POST',
       payload: data,
     });
+
+    await dispatch(fetchPost(data._id));
   } catch (error) {
     alert(error);
   }
