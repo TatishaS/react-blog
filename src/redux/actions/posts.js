@@ -19,7 +19,7 @@ export const updatePost = (id, updatedItem) => async dispatch => {
   const { token } = JSON.parse(localStorage.getItem('profile'));
 
   try {
-    const resp = await axios.patch(`posts/${id}`, updatedItem, {
+    const resp = await axios.patch(`/posts/${id}`, updatedItem, {
       headers: {
         Authorization: token,
       },
@@ -42,7 +42,7 @@ export const setPostLoaded = payload => ({
 export const addPost = item => async dispatch => {
   const { token } = JSON.parse(localStorage.getItem('profile'));
   try {
-    const { data } = await axios.post('posts', item, {
+    const { data } = await axios.post('/posts', item, {
       headers: {
         Authorization: token,
       },
@@ -60,7 +60,7 @@ export const addPost = item => async dispatch => {
 export const removePost = id => async dispatch => {
   const { token } = JSON.parse(localStorage.getItem('profile'));
   try {
-    await axios.delete(`posts/${id}`, {
+    await axios.delete(`/posts/${id}`, {
       headers: {
         Authorization: token,
       },
@@ -79,7 +79,7 @@ export const fetchPost = id => async dispatch => {
   dispatch(setPostLoaded(false));
 
   try {
-    await axios.get(`posts/${id}`).then(({ data }) => {
+    await axios.get(`/posts/${id}`).then(({ data }) => {
       dispatch(setPostData(data));
     });
   } catch (error) {
@@ -89,7 +89,7 @@ export const fetchPost = id => async dispatch => {
 
 export const fetchPosts = page => async dispatch => {
   dispatch(setLoaded(false));
-  await axios.get(`posts?page=${page}`).then(({ data }) => {
+  await axios.get(`/posts?page=${page}`).then(({ data }) => {
     dispatch(setPosts(data));
   });
 };

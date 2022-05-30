@@ -103,7 +103,7 @@ export const CreatePost = () => {
 
     if (imgFile) {
       try {
-        /* const { data } = await axios.post('posts/upload', formData, {
+        /* const { data } = await axios.post('/posts/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
