@@ -16,7 +16,6 @@
     justify-content: space-between;
     width: 400px;
     height: 100vh;
-    transition: all 0.9s ease-in-out;
     transform: translateX(0);
   }
 
@@ -90,7 +89,7 @@
     border: none;
     cursor: pointer;
 
-    transition: all 0.9s ease-in-out;
+    transition: all 0.4s ease-in-out;
 
     span {
       text-transform: uppercase;
@@ -107,7 +106,7 @@
     height: 2px;
     transform: translateX(-50px);
     background: transparent;
-    transition: all 0.9s ease-in-out;
+    transition: all 0.4s ease-in-out;
   }
 
   &__btn-burger::before,
@@ -118,7 +117,7 @@
     width: 20px;
     height: 2px;
     background: #fff;
-    transition: all 0.9s ease-in-out;
+    transition: all 0.4s ease-in-out;
   }
 
   .menu__btn-burger::before {
@@ -133,14 +132,13 @@
     width: 100px;
 
     .menu__content {
-      transition: all 0.9s ease-in-out;
       transform: translateX(1500%);
     }
 
     .menu__btn {
       transform-origin: left bottom;
       transform: rotate(-90deg);
-      transition: all 0.9s ease-in-out;
+      transition: all 0.4s ease-in-out;
       left: 60px;
     }
 
