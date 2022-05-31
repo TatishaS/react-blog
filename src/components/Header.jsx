@@ -27,7 +27,8 @@ export const Header = ({
     if (isAuth && window.confirm('Вы действительно хотите выйти?')) {
       dispatch(logoutSuccess());
       navigate('/');
-    } else {
+    }
+    if (!isAuth) {
       handleShowModal(true);
     }
   };
