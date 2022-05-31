@@ -16,7 +16,8 @@ export const Menu = ({ handleShowModal }) => {
     if (isAuth && window.confirm('Вы действительно хотите выйти?')) {
       dispatch(logoutSuccess());
       navigate('/');
-    } else if (!isAuth) {
+    }
+    if (!isAuth) {
       handleShowModal(true);
     }
   };

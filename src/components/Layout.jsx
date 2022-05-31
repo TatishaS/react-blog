@@ -52,6 +52,7 @@ export const Layout = () => {
   const handleSearchVisible = status => {
     setSearchVisible(status);
     setSearchValue('');
+    setResults(null);
   };
 
   // Toggle modal forms
