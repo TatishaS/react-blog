@@ -6,7 +6,7 @@ export const Home = () => {
   return (
     <>
       <section className="section about">
-        <h1 className="about__title">Vasya Pupkina</h1>
+        <h1 className="about__title">Tati Sidorova</h1>
         <h2 className="about__subtitle">Блог юного фронтенд-разработчика</h2>
         <img
           className="about__img"
