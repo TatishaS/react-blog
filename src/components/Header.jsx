@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import logoSvg from '../assets/img/logo.svg';
+import logoSvg from '../assets/img/logo-tati.svg';
 import { ReactComponent as SearchIcon } from '../assets/img/icon-search.svg';
 import { ReactComponent as WriteIcon } from '../assets/img/icon-write.svg';
 import { ReactComponent as LogoutIcon } from '../assets/img/icon-logout.svg';
