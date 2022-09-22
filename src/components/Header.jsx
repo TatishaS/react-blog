@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import logoSvg from '../assets/img/logo.svg';
+import logoPng from '../assets/img/logo.png';
 import { ReactComponent as SearchIcon } from '../assets/img/icon-search.svg';
 import { ReactComponent as WriteIcon } from '../assets/img/icon-write.svg';
 import { ReactComponent as LogoutIcon } from '../assets/img/icon-logout.svg';
@@ -45,7 +45,7 @@ export const Header = ({
     <header className="header">
       <div className="header__inner">
         <Link to="/">
-          <img className="header__logo" src={logoSvg} alt="logo" />
+          <img className="header__logo" src={logoPng} alt="logo" />
         </Link>
 
         {searchVisible && (
