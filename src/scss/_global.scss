@@ -46,6 +46,7 @@ img {
 
 .container {
   display: flex;
+
   &__inner {
     order: 2;
     border-left: $outline;
@@ -75,6 +76,18 @@ img {
 
   &__icon {
     animation: rotate 1s infinite linear;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 40px;
+
+    &__inner {
+      order: 1;
+    }
   }
 }
 

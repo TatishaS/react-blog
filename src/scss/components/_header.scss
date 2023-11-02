@@ -1,5 +1,6 @@
 .header {
   height: 67px;
+  max-width: 100%;
   &__inner {
     width: 100%;
 
@@ -94,6 +95,14 @@
         transparent;
       cursor: pointer;
       border: none;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .header {
+    &__inner {
+      padding: 21px 100px 21px 0;
     }
   }
 }
