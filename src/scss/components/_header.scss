@@ -102,7 +102,21 @@
 @media (max-width: 767.98px) {
   .header {
     &__inner {
-      padding: 21px 100px 21px 0;
+      padding: 21px 20px 21px 0;
+    }
+
+    &__search-box {
+      left: 0;
+      right: auto;
+      width: 80%;
+    }
+
+    &__logo {
+      margin-right: 20px;
+    }
+
+    &__icons {
+      margin-right: 0;
     }
   }
 }

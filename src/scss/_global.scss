@@ -39,7 +39,7 @@ img {
   position: relative;
   width: 100%;
   max-width: 1440px;
-  padding-right: 100px;
+  //padding-right: 100px;
   margin: 0 auto;
   //overflow: hidden;
 }
@@ -79,7 +79,23 @@ img {
   }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 1400px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  .wrapper {
+    padding-right: 100px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .wrapper {
+    max-width: 720px;
+    padding-right: 0;
+  }
+
   .container {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -87,6 +103,7 @@ img {
 
     &__inner {
       order: 1;
+      padding-right: 80px;
     }
   }
 }

@@ -28,3 +28,15 @@
       center;
   }
 }
+
+@media (max-width: 797.98px) {
+  .pagination {
+    &__inner {
+      display: block;
+    }
+
+    &__arrows {
+      margin-bottom: 20px;
+    }
+  }
+}

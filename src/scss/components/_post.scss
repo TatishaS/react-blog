@@ -92,6 +92,15 @@
   }
 }
 
+@media (max-width: 1400px) {
+  .post {
+    &__img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+
 @media (max-width: 500px) {
   .post {
     &__img {
